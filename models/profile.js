@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose from 'mongoose'
 
 export {
   Profile
@@ -46,7 +46,7 @@ const profileSchema = new mongoose.Schema({
     ref: "Profile"
   }],
   flocks: [{
-    type: mognoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Flock"
   }],
   nestMessages: [{
