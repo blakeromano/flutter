@@ -21,6 +21,7 @@ import('./config/passport.js')
 import { router as indexRouter } from './routes/index.js'
 import { router as authRouter } from './routes/auth.js'
 import { router as chooseRouter } from "./routes/choose.js"
+import { router as nestRouter } from "./routes/nest.js"
 import { passUserToView } from './middleware/middleware.js'
 
 // view engine setup
@@ -64,6 +65,7 @@ app.use(passUserToView)
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use("/choose", chooseRouter)
+app.use("/nest", nestRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
