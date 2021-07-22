@@ -1,0 +1,30 @@
+<%- include('./partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/index/choose.css" />
+</head>
+<body>
+<main>
+  <div class="row container-fluid d-flex justify-content-center align-items-center">
+    <div class="col-3">
+        <div class="card">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">Go to the Nest</h5>
+                <form action="/nest" method="get">
+                    <button type="submit" class="btn btn-lg btn-primary">Nest</button>
+                </form>
+            </div>
+      </div>
+    <div class="col-3">
+        <div class="card">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">Go find your Chirp Mate!</h5>
+                <form action="/date" method="get">
+                    <button type="submit" class="btn btn-lg btn-primary">All Birds No Bees</button>
+                </form>
+            </div>
+        </div>
+  </div>
+</main>
+
+<%- include('./partials/footer') %>
