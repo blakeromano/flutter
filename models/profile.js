@@ -67,6 +67,14 @@ const profileSchema = new mongoose.Schema({
     min: 18,
     max: 99,
   },
+  following: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile"
+  }],
+  followers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile"
+  }],
 }, {
   timestamps: true
 })
