@@ -22,7 +22,9 @@ import { router as indexRouter } from './routes/index.js'
 import { router as authRouter } from './routes/auth.js'
 import { router as chooseRouter } from "./routes/choose.js"
 import { router as nestRouter } from "./routes/nest.js"
+import { router as datesRouter } from './routes/dates.js'
 import { passUserToView } from './middleware/middleware.js'
+
 
 // view engine setup
 app.set(
@@ -66,6 +68,7 @@ app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use("/choose", chooseRouter)
 app.use("/nest", nestRouter)
+app.use('/date', datesRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
