@@ -54,7 +54,6 @@ function showProfile(req, res) {
     .populate("following")
     .populate("followers")
     .then(profile => {
-        console.log(profile)
         res.render("nest/profileShow", {
             title: `${profile.name}'s Profile`,
             profile,
