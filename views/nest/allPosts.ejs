@@ -6,9 +6,9 @@
 
 <main>
     <div class="row d-flex container-fluid">
-        <div class="col-6 container-fluid">
-          <h3>New Posts from People you Follow</h3>
-            <% posts.forEach(post => { %>
+            <div class="row">
+              <h3>All Posts</h3>
+              <% posts?.forEach(post => { %>
                 <div class="card">
                 <% if (post.image) { %> 
                         <img src="" class="card-img-top" alt="...">
@@ -58,38 +58,6 @@
                     </div>
                   </div>
             <% }) %> 
-
-        </div>
-        <div class="col-6 container-fluid">
-            <div class="row container-fluid">
-                <h3>New Flocks</h3>
-                <% flocks?.forEach(flock => { %>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title text-center"><%= flock.name %> - Created by <%= flock.profiles[0].name %></h5>
-                            <p class="card-text"><%= flock.desc %></p>
-                        </div>
-                    </div>
-                <% }) %> 
-            </div>
-            <div class="row">
-              <h3>New Profiles</h3>
-                <% profiles?.forEach(profile => { %>
-                    <div class="card">
-                        <% if (profile.avatar) { %> 
-                            <img style="height: 100px; width: 100px;" src="<%= profile.avatar %>" class="card-img" alt="<%= profile.name %>'s Avatar">
-                        <% } %> 
-                            <div class="card-body">
-                              <h5 class="card-title text-center"><%= profile.name %></h5>
-                              <form action="/nest/<%= profile._id %>" method="GET">
-                                <button type="submit" class="btn btn-lg btn-primary">Go to Profile</button>
-                              </form>
-                            </div>
-                        </div>
-                      </div>
-                <% }) %> 
-            </div>
-        </div>
     </div>
 </main>
 

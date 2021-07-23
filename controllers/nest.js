@@ -107,15 +107,12 @@ function newPost (req, res) {
     })
 }
 function indexPosts (req, res) {
-    Posts.find({})
+    Post.find()
+    .populate("author")
     .then(posts => {
-        Profile.findById(req.user.profile._id)
-        .then(profile => {
-            res.render("nest/indexPosts", {
-                title: "All Posts",
-                posts,
-                profile,
-            })
+        res.render("nest/allPosts", {
+            title: "All Posts",
+            posts,
         })
     })
     .catch(err => {
