@@ -31,7 +31,6 @@ function index(req, res) {
             .limit(10)
             .populate("author")
             .then(posts => {
-                console.log(flocks)
                 res.render("nest/index", {
                     title: "Nest Home",
                     flocks,
@@ -49,16 +48,13 @@ function index(req, res) {
 function showProfile(req, res) {
     Profile.findById(req.params.id)
     .populate("flocks")
+    .populate("posts")
+    .populate("following")
+    .populate("followers")
     .then(profile => {
-        Post.find({author: profile._id})
-        .sort({_id: -1})
-        .limit(6)
-        .then(posts => {
-            res.render("nest/show", {
-                title: `${profile.name}'s Profile`,
-                profile,
-                posts,
-            })
+        res.render("nest/show", {
+            title: `${profile.name}'s Profile`,
+            profile,
         })
     })
     .catch(err => {
@@ -77,6 +73,10 @@ function deleteProfile (req, res) {
     .then(user => {
         Profile.findByIdAndDelete(req.user.profile._id)
         .then(profile => {
+            Post.deleteMany({author: profile._id})
+            .then(() => {
+
+            })
             res.redirect("/")
         })
     })
@@ -127,21 +127,25 @@ function updatePost (req, res) {
     })
 }
 function deletePost (req, res) {
-    Post.findByIdAndDelete(req.params.id)
-    .then(post => {
-        res.redirect("/nest")
+    Profile.findById(req.user.profile._id)
+    .then(profile => {
+        Post.findByIdAndDelete(req.params.id)
+        .then(post => {
+            profile.posts.remove(req.params.id)
+            profile.save()
+            .then(() => {
+                res.redirect("/nest")
+            })
+        })
     })
 }
 function showPost (req, res) {
     Post.findById(req.params.id)
+    .populate("author")
     .then(post => {
-        Profile.findById(post.author)
-        .then(profile => {
-            res.render("/nest/show", {
-                title: `${profile.name}'s Post`,
-                post,
-                profile,
-            })
+        res.render("/nest/show", {
+            title: `${post.author.name}'s Post`,
+            post,
         })
     })
 }

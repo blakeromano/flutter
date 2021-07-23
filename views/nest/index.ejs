@@ -58,7 +58,7 @@
 <main>
     <div class="row d-flex container-fluid">
         <div class="col-6 container-fluid">
-            <% posts.forEach(post => { %>
+            <% posts?.forEach(post => { %>
                 <div class="card">
                 <% if (post.image) { %> 
                         <img src="" class="card-img-top" alt="...">
@@ -66,8 +66,8 @@
                         <div class="card-body">
                           <h5 class="card-title text-center"><%= post.author.name %></h5>
                           <p class="card-text"><%= post.content %></p>
-                          <form action="/nest/<%= post._id %>?_method=DELETE" method="POST">
-                            <button type="submit" class="btn btn-lg btn-primary">DELETE</button>
+                          <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
                           </form>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
         <div class="col-6 container-fluid">
             <div class="row container-fluid">
                 <h3>New Flocks</h3>
-                <% flocks.forEach(flock => { %>
+                <% flocks?.forEach(flock => { %>
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title text-center"><%= flock.name %> - Created by <%= flock.profiles[0].name %></h5>
@@ -93,7 +93,7 @@
                 </button>  
             </div>
             <div class="row">
-                <% profiles.forEach(profile => { %>
+                <% profiles?.forEach(profile => { %>
                     <div class="card">
                         <% if (profile.avatar) { %> 
                             <img style="height: 100px; width: 100px;" src="<%= profile.avatar %>" class="card-img" alt="<%= profile.name %>'s Avatar">
