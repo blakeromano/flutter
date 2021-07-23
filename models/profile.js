@@ -31,7 +31,7 @@ const profileSchema = new mongoose.Schema({
   },
   city: String,
   favBird: String,
-  birthday: Date,
+  birthday: String,
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Post"

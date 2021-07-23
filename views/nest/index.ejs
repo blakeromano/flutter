@@ -58,6 +58,7 @@
 <main>
     <div class="row d-flex container-fluid">
         <div class="col-6 container-fluid">
+          <h3>New Posts from People you Follow</h3>
             <% posts?.forEach(post => { %>
                 <div class="card">
                 <% if (post.image) { %> 
@@ -128,6 +129,7 @@
                 </button>  
             </div>
             <div class="row">
+              <h3>New Profiles</h3>
                 <% profiles?.forEach(profile => { %>
                     <div class="card">
                         <% if (profile.avatar) { %> 
