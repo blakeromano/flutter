@@ -7,9 +7,9 @@ export {
 const router = Router()
 
 router.get("/", isLoggedIn, nestCtrl.index)
-router.get("/:id", isLoggedIn, nestCtrl.show)
-router.put("/:id", isLoggedIn, nestCtrl.update)
-router.delete("/:id", isLoggedIn, nestCtrl.delete)
+router.get("/:id", isLoggedIn, nestCtrl.showProfile)
+router.put("/:id", isLoggedIn, nestCtrl.updateProfile)
+router.delete("/:id", isLoggedIn, nestCtrl.deleteProfile)
 router.post("/flocks", isLoggedIn, nestCtrl.newFlock)
 router.post("/posts", isLoggedIn, nestCtrl.newPost)
 router.get("/posts", isLoggedIn, nestCtrl.indexPosts)

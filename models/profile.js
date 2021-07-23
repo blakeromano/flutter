@@ -34,7 +34,7 @@ const profileSchema = new mongoose.Schema({
   birthday: Date,
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Profile"
+    ref: "Post"
   }],
   hobbies: [hobbySchema],
   likedBy: [{
@@ -75,6 +75,7 @@ const profileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile"
   }],
+  bio: String,
 }, {
   timestamps: true
 })
