@@ -6,9 +6,9 @@ import { User } from "../models/user.js"
 
 export {
     index,
-    showProfile as show,
-    update,
-    deleteProfile as delete,
+    showProfile,
+    updateProfile,
+    deleteProfile,
     newPost,
     indexPosts,
     updatePost,
@@ -54,7 +54,7 @@ function showProfile(req, res) {
     .populate("following")
     .populate("followers")
     .then(profile => {
-        res.render("nest/show", {
+        res.render("nest/profileShow", {
             title: `${profile.name}'s Profile`,
             profile,
         })
@@ -64,7 +64,7 @@ function showProfile(req, res) {
         res.redirect("/choose")
     })
 }
-function update (req, res) {
+function updateProfile (req, res) {
     Profile.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then(profile => {
         res.redirect(`/nest/${profile._id}`)
@@ -182,8 +182,14 @@ function likePost(req, res) {
         .then(() => {
             res.redirect("/nest")
         })
+        } else {
+            post.likes.remove(req.user.profile._id)
+            post.save()
+            .then(() => {
+                res.redirect("/nest")
+            })
         }
-        res.redirect("/nest")
+        
     })
     .catch(err => {
         console.log(err)
