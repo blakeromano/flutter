@@ -13,10 +13,12 @@ export {
     indexPosts,
     updatePost,
     deletePost,
-    showPost,
+    joinFlock,
     newFlock,
     likePost,
     indexProfiles,
+    showFlock,
+    editFlock,
 }
 function index(req, res) {
     Profile.find({})
@@ -34,7 +36,7 @@ function index(req, res) {
             .populate("author")
             .populate("likes")
             .then(posts => {
-                res.render("dates/index", {
+                res.render("nest/index", {
                     title: "Nest Home",
                     flocks,
                     posts,
@@ -50,7 +52,14 @@ function index(req, res) {
 }
 function showProfile(req, res) {
     Profile.findById(req.params.id)
-    .populate("flocks")
+    .populate({
+        path: "flocks",
+        model: "Flock",
+        populate: {
+            path: "profiles",
+            model: "Profile"
+        }
+    })
     .populate("posts")
     .populate("following")
     .populate("followers")
@@ -72,21 +81,21 @@ function updateProfile (req, res) {
     })
 }
 function deleteProfile (req, res) {
-    User.findByIdAndDelete(req.user._id)
-    .then(user => {
-        Profile.findByIdAndDelete(req.user.profile._id)
-        .then(profile => {
-            Post.deleteMany({author: profile._id})
-            .then(() => {
+    // User.findByIdAndDelete(req.user._id)
+    // .then(user => {
+    //     Profile.findByIdAndDelete(req.user.profile._id)
+    //     .then(profile => {
+    //         Post.deleteMany({author: profile._id})
+    //         .then(() => {
 
-            })
-            res.redirect("/")
-        })
-    })
-    .catch(err => {
-        console.log(err)
-        res.redirect("/choose")
-    })
+    //         })
+    //         res.redirect("/")
+    //     })
+    // })
+    // .catch(err => {
+    //     console.log(err)
+    //     res.redirect("/choose")
+    // })
 }
 function newPost (req, res) {
     req.body.author = req.user.profile._id
@@ -139,13 +148,14 @@ function deletePost (req, res) {
         })
     })
 }
-function showPost (req, res) {
-    Post.findById(req.params.id)
-    .populate("author")
-    .then(post => {
-        res.render("/nest/show", {
-            title: `${post.author.name}'s Post`,
-            post,
+function joinFlock (req, res) {
+    Flock.findById(req.params.id)
+    .then(flock => {
+        flock.profiles.push(req.user.profile._id)
+        flock.members = flock.members + 1
+        flock.save()
+        .then(() => {
+            res.redirect(`/nest/flocks/${flock._id}`)
         })
     })
 }
@@ -202,5 +212,22 @@ function indexProfiles(req, res) {
             title: "All Profiles",
             profiles,
         })
+    })
+}
+function showFlock (req, res) {
+    Flock.findById(req.params.id)
+    .populate("profiles")
+    .populate("posts")
+    .then(flock => {
+        res.render("nest/showFlock", {
+            title: `${flock.name} Flock`,
+            flock,
+        })
+    })
+}
+function editFlock (req, res) {
+    Flock.findByIdandUpdate(req.params.id)
+    .then(() => {
+        res.redirect(`/nest/flocks/${req.params.id}`)
     })
 }

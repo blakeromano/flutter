@@ -1,0 +1,37 @@
+<%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/nest/nav.css">
+<%- include("../partials/nest-nav") %> 
+<div class="modal" id="editFlock" tabindex="-1" aria-labelledby="editFlock" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editFlock">Edit Flock</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="submit-form" action="/nest/flocks/<%= flock._id %>?_method=PUT" method="POST">
+          <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingInput" name="name" value="<%= flock.name %>" >
+              <label for="name">Name:</label>
+          </div>
+          <div class="form-floating mb-3">
+              <textarea type="text" class="form-control" id="floatingInput" name="desc" required><%= flock.desc %></textarea>
+              <label for="desc">Flock Description:</label>
+          </div>
+      </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Edit Flock!</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row d-flex container-fluid">
+    <h1 class="text-center"><%= flock.name %></h1>
+    <h2 class="text-center">Created by: <%= flock.profiles[0].name %></h2>
+    <h2 class="text-center">Members: <%= flock.memberCount %></h2>
+    
+</div>
+
+<%- include('../partials/footer') %>

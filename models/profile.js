@@ -76,6 +76,7 @@ const profileSchema = new mongoose.Schema({
     ref: "Profile"
   }],
   bio: String,
+  moderator: Boolean,
 }, {
   timestamps: true
 })

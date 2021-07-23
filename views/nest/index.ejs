@@ -1,5 +1,5 @@
 <%- include('../partials/html-head') %>
-<link rel="stylesheet" href="/stylesheets/index/choose.css" />
+<link rel="stylesheet" href="/stylesheets/nest/nav.css">
 <%- include("../partials/nest-nav") %> 
 </head>
 <body>
@@ -18,7 +18,7 @@
                           <p class="card-text"><%= post.content %></p>
                           <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
                           <form action="/nest/posts/<%= post._id %>/like" method="POST">
-                                <button type="submit" class="btn btn-lg btn-success">Like!</button>
+                                <button type="submit" class="btn btn-lg btn-success">👍</button>
                           </form>
                           <% if(post.author._id.toString() === user.profile._id.toString()) {%>
                           <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
@@ -64,12 +64,14 @@
             <div class="row container-fluid">
                 <h3>New Flocks</h3>
                 <% flocks?.forEach(flock => { %>
+                  <a href="/nest/flocks/<%= flock._id %> ">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title text-center"><%= flock.name %> - Created by <%= flock.profiles[0].name %></h5>
                             <p class="card-text"><%= flock.desc %></p>
                         </div>
                     </div>
+                  </a>
                 <% }) %> 
             </div>
             <div class="row">
