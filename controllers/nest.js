@@ -14,7 +14,7 @@ export {
     updatePost,
     deletePost,
     showPost,
-
+    newFlock,
 }
 function index(req, res) {
     Profile.find({})
@@ -24,11 +24,14 @@ function index(req, res) {
         Flock.find({})
         .sort({_id: -1})
         .limit(3)
+        .populate("profiles")
         .then(flocks => {
             Post.find({})
             .sort({_id: -1})
-            .limit(5)
+            .limit(10)
+            .populate("author")
             .then(posts => {
+                console.log(flocks)
                 res.render("nest/index", {
                     title: "Nest Home",
                     flocks,
@@ -83,10 +86,17 @@ function deleteProfile (req, res) {
     })
 }
 function newPost (req, res) {
-    req.author = req.user.profile._id
+    req.body.author = req.user.profile._id
     Post.create(req.body)
     .then(post => {
-        res.redirect("/nest")
+        Profile.findById(req.user.profile._id)
+        .then(profile => {
+            profile.posts.push(post._id)
+            profile.save()
+            .then(() => {
+                res.redirect("/nest")
+            })
+        })
     })
     .catch(err => {
         console.log(err)
@@ -131,6 +141,23 @@ function showPost (req, res) {
                 title: `${profile.name}'s Post`,
                 post,
                 profile,
+            })
+        })
+    })
+}
+function newFlock (req, res) {
+    Flock.create(req.body)
+    .then(flock => {
+        Profile.findById(req.user.profile._id)
+        .then(profile => {
+            profile.flocks.push(flock._id)
+            profile.save()
+            .then(() => {
+                flock.profiles.push(profile._id)
+                flock.save()
+                .then(() => {
+                    res.redirect("/nest")
+                })
             })
         })
     })
