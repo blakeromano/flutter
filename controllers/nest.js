@@ -15,6 +15,7 @@ export {
     deletePost,
     showPost,
     newFlock,
+    likePost,
 }
 function index(req, res) {
     Profile.find({})
@@ -30,6 +31,7 @@ function index(req, res) {
             .sort({_id: -1})
             .limit(10)
             .populate("author")
+            .populate("likes")
             .then(posts => {
                 res.render("nest/index", {
                     title: "Nest Home",
@@ -164,5 +166,27 @@ function newFlock (req, res) {
                 })
             })
         })
+    })
+    .catch(err => {
+        console.log(err)
+        res.redirect("/choose")
+    })
+}
+
+function likePost(req, res) {
+    Post.findById(req.params.id)
+    .then(post => {
+        if(!post.likes.includes(req.user.profile._id)){
+        post.likes.push(req.user.profile._id)
+        post.save()
+        .then(() => {
+            res.redirect("/nest")
+        })
+        }
+        res.redirect("/nest")
+    })
+    .catch(err => {
+        console.log(err)
+        res.redirect("/choose")
     })
 }

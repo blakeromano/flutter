@@ -16,6 +16,7 @@ router.get("/posts", isLoggedIn, nestCtrl.indexPosts)
 router.get("/posts/:id", isLoggedIn, nestCtrl.showPost)
 router.put("/posts/:id", isLoggedIn, nestCtrl.updatePost)
 router.delete("/posts/:id", isLoggedIn, nestCtrl.deletePost)
+router.post("/posts/:id/like", isLoggedIn, nestCtrl.likePost)
 
 
 function isLoggedIn(req, res, next) {

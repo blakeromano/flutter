@@ -66,6 +66,10 @@
                         <div class="card-body">
                           <h5 class="card-title text-center"><%= post.author.name %></h5>
                           <p class="card-text"><%= post.content %></p>
+                          <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
+                          <form action="/nest/posts/<%= post._id %>/like" method="POST">
+                            <button type="submit" class="btn btn-lg btn-success">Like!</button>
+                          </form>
                           <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
                             <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
                           </form>
