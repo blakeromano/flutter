@@ -7,8 +7,8 @@ export {
 const router = Router()
 
 router.get("/", isLoggedIn, dateCtrl.index)
-router.get("/:id", isLoggedIn, dateCtrl.show)
-router.put("/:id", isLoggedIn, dateCtrl.update)
+router.get("/:id", isLoggedIn, dateCtrl.showProfile)
+router.put("/:id", isLoggedIn, dateCtrl.updateProfile)
 router.delete("/:id", isLoggedIn, dateCtrl.delete)
 router.post("/posts", isLoggedIn, dateCtrl.newPost)
 router.get("/posts", isLoggedIn, dateCtrl.indexPosts)

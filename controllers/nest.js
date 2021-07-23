@@ -34,7 +34,7 @@ function index(req, res) {
             .populate("author")
             .populate("likes")
             .then(posts => {
-                res.render("nest/index", {
+                res.render("dates/index", {
                     title: "Nest Home",
                     flocks,
                     posts,
