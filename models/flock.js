@@ -16,8 +16,12 @@ const flockSchema = new mongoose.Schema(
     }],
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Posts"
+        ref: "Post"
     }],
+    memberCount: {
+      type: Number,
+      default: 1
+    },
     desc: String,
   },
   {
