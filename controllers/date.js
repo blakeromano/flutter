@@ -14,7 +14,8 @@ export {
     
 }
 function index(req, res) {
-res.render('dates/index')
+// res.render('dates/index')
+
 }
 function show(req, res) {
 
