@@ -1,34 +1,8 @@
 <%- include('../partials/html-head') %>
 <link rel="stylesheet" href="/stylesheets/index/choose.css" />
-<%- include("../partials/nav") %> 
+<%- include("../partials/nest-nav") %> 
 </head>
 <body>
-    <div class="modal" id="newPost" tabindex="-1" aria-labelledby="newPost" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="newPost">New Post</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form class="submit-form" action="/nest/posts" method="POST">
-                <div class="form-floating mb-3">
-                    <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
-                    <label for="name">Content:</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" name="image" >
-                    <label for="image">Image URL:</label>
-                </div>
-            </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Post!</button>
-                </div>
-            </form>
-          </div>
-        </div>
-      </div>
       <div class="modal" id="updateProfile" tabindex="-1" aria-labelledby="updateProfile" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -148,9 +122,6 @@
                     </div>
                   </div>
             <% }) %> 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPost">
-                Create Post
-            </button>  
         </div>
         <div class="col-6 container-fluid">
             <div class="row container-fluid">
@@ -163,9 +134,6 @@
                         </div>
                     </div>
                 <% }) %> 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newFlock">
-                    Create Flock
-                </button>  
             </div>
             <div class="row">
                 <div>

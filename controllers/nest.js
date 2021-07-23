@@ -16,6 +16,7 @@ export {
     showPost,
     newFlock,
     likePost,
+    indexProfiles,
 }
 function index(req, res) {
     Profile.find({})
@@ -194,5 +195,15 @@ function likePost(req, res) {
     .catch(err => {
         console.log(err)
         res.redirect("/choose")
+    })
+}
+
+function indexProfiles(req, res) {
+    Profile.find({})
+    .then(profiles => {
+        res.render("nest/allProfiles", {
+            title: "All Profiles",
+            profiles,
+        })
     })
 }
