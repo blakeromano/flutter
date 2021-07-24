@@ -31,7 +31,11 @@
     <h1 class="text-center"><%= flock.name %></h1>
     <h2 class="text-center">Created by: <%= flock.profiles[0].name %></h2>
     <h2 class="text-center">Members: <%= flock.memberCount %></h2>
-    
+    <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
+        <% if (user) { %>
+            <button type="submit" class="btn btn-success">Join Flock!</button>
+            <% } %>
+        </form>
 </div>
 
 <%- include('../partials/footer') %>
