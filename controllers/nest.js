@@ -151,15 +151,41 @@ function deletePost (req, res) {
 function joinFlock (req, res) {
     Flock.findById(req.params.id)
     .then(flock => {
-        flock.profiles.push(req.user.profile._id)
-        flock.members = flock.members + 1
-        flock.save()
-        .then(() => {
+        if(!flock.profiles.includes(req.user.profile._id)) {
+            flock.profiles.push(req.user.profile._id)
+            flock.memberCount = flock.memberCount + 1
+            flock.save()
+            .then(() => {
+                Profile.findById(req.user.profile._id)
+                .then(profile => {
+                    profile.flocks.push(flock._id)
+                    profile.save()
+                    .then(() => {
+                        res.redirect(`/nest/flocks/${flock._id}`)
+                    })
+                })
+            })
+        } else if (flock.profiles[0]._id.toString() == req.user.profile._id.toString()) {
             res.redirect(`/nest/flocks/${flock._id}`)
-        })
+        } else {
+            flock.profiles.remove(req.user.profile._id)
+            flock.memberCount = flock.memberCount - 1
+            flock.save()
+            .then(() => {
+                Profile.findById(req.user.profile._id)
+                .then(profile => {
+                    profile.flocks.push(flock._id)
+                    profile.save()
+                    .then(() => {
+                        res.redirect("/nest")
+                    })
+                })
+            })
+        }
     })
 }
 function newFlock (req, res) {
+    req.body.memberCount = 1
     Flock.create(req.body)
     .then(flock => {
         Profile.findById(req.user.profile._id)

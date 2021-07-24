@@ -68,11 +68,14 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title text-center"><%= flock.name %> - Created by <%= flock.profiles[0].name %></h5>
+                            <p class="card-text">Members: <%= flock.memberCount %></p>
                             <p class="card-text"><%= flock.desc %></p>
                         </div>
                         <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
-                            <button type="submit" class="btn btn-success">Join Flock!</button>
-                        </form>
+                          <% if (user) { %>
+                              <button type="submit" class="btn btn-success">Join Flock!</button>
+                              <% } %>
+                          </form>
                     </div>
                   </a>
                 <% }) %> 
