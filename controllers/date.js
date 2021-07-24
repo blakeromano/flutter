@@ -17,6 +17,7 @@ export {
     updatePost,
     deletePost,
     showPost,
+    editProfile,
     
 }
 // function index(req, res) {
@@ -54,10 +55,6 @@ function index(req, res) {
 }
 function showProfile(req, res) {
     Profile.findById(req.params.id)
-    .populate("flocks")
-    .populate("posts")
-    .populate("following")
-    .populate("followers")
     .then(profile => {
         res.render("dates/profileShow", {
             title: `${profile.name}'s Profile`,
@@ -75,6 +72,21 @@ function updateProfile (req, res) {
         res.redirect(`/dates/${profile._id}`)
     })
 }
+
+function editProfile (req,res) {
+    Profile.findById(req.params.id)
+    .then(profile => {
+      res.render('/dates/profileUpdate', {
+        title: `Editing ${profile.name}'s profile`,
+        profile
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/')
+    })
+}
+
 function deleteProfile (req, res) {
  
 }
