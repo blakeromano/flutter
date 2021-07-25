@@ -82,7 +82,7 @@
                           <form action="/nest/posts/<%= post._id %>/like" method="POST">
                                 <button type="submit" class="btn btn-lg btn-success">Like!</button>
                           </form>
-                          <% if(post.author._id.toString() === user.profile._id.toString()) {%>
+                          <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.moderator == true) {%>
                           <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
                             <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
                           </form>
@@ -149,7 +149,7 @@
                 <p>Favorite Bird: <%= profile.favBird %></p>
                 <p>Birthday: <%= profile.birthday %></p>
                 <p>Biography: <%= profile.bio %></p>
-                <% if (user.profile._id.toString() === profile._id.toString()) { %>
+                <% if (user.profile._id.toString() === profile._id.toString() || user.profile.moderator == true) { %>
                     <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#updateProfile">Update Profile</button>
                     <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button>
                     <% } %>

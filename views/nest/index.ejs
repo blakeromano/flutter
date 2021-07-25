@@ -20,7 +20,7 @@
                           <form action="/nest/posts/<%= post._id %>/like" method="POST">
                                 <button type="submit" class="btn btn-lg btn-success">👍</button>
                           </form>
-                          <% if(post.author._id.toString() === user.profile._id.toString()) {%>
+                          <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.moderator == true) {%>
                           <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
                             <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
                           </form>
@@ -89,6 +89,11 @@
                         <% } %> 
                             <div class="card-body">
                               <h5 class="card-title text-center"><%= profile.name %></h5>
+                              <% if (user.profile._id.toString() !== profile._id.toString()) { %>
+                                <form action="/nest/<%= profile._id %>/follow" method="POST">
+                                  <button type="submit" class="btn btn-lg btn-primary">Follow <%= profile.name %></button>
+                                </form>
+                              <% } %>
                               <form action="/nest/<%= profile._id %>" method="GET">
                                 <button type="submit" class="btn btn-lg btn-primary">Go to Profile</button>
                               </form>
