@@ -19,6 +19,7 @@ export {
     indexProfiles,
     showFlock,
     editFlock,
+    followProfile,
 }
 function index(req, res) {
     Profile.find({})
@@ -98,6 +99,7 @@ function deleteProfile (req, res) {
     // })
 }
 function newPost (req, res) {
+    console.log(req.headers.referer)
     req.body.author = req.user.profile._id
     Post.create(req.body)
     .then(post => {
@@ -106,7 +108,7 @@ function newPost (req, res) {
             profile.posts.push(post._id)
             profile.save()
             .then(() => {
-                res.redirect("/nest")
+                res.redirect(req.headers.referer)
             })
         })
     })
@@ -132,7 +134,7 @@ function indexPosts (req, res) {
 function updatePost (req, res) {
     Post.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then(post => {
-        res.redirect(`/nest/${post._id}`)
+        res.redirect(req.headers.referer)
     })
 }
 function deletePost (req, res) {
@@ -143,7 +145,7 @@ function deletePost (req, res) {
             profile.posts.remove(req.params.id)
             profile.save()
             .then(() => {
-                res.redirect("/nest")
+                res.redirect(req.headers.referer)
             })
         })
     })
@@ -161,12 +163,12 @@ function joinFlock (req, res) {
                     profile.flocks.push(flock._id)
                     profile.save()
                     .then(() => {
-                        res.redirect(`/nest/flocks/${flock._id}`)
+                        res.redirect(req.headers.referer)
                     })
                 })
             })
         } else if (flock.profiles[0]._id.toString() == req.user.profile._id.toString()) {
-            res.redirect(`/nest/flocks/${flock._id}`)
+            res.redirect(req.headers.referer)
         } else {
             flock.profiles.remove(req.user.profile._id)
             flock.memberCount = flock.memberCount - 1
@@ -177,7 +179,7 @@ function joinFlock (req, res) {
                     profile.flocks.push(flock._id)
                     profile.save()
                     .then(() => {
-                        res.redirect("/nest")
+                        res.redirect(req.headers.referer)
                     })
                 })
             })
@@ -196,7 +198,7 @@ function newFlock (req, res) {
                 flock.profiles.push(profile._id)
                 flock.save()
                 .then(() => {
-                    res.redirect("/nest")
+                    res.redirect(req.headers.referer)
                 })
             })
         })
@@ -214,13 +216,13 @@ function likePost(req, res) {
         post.likes.push(req.user.profile._id)
         post.save()
         .then(() => {
-            res.redirect("/nest")
+            res.redirect(req.headers.referer)
         })
         } else {
             post.likes.remove(req.user.profile._id)
             post.save()
             .then(() => {
-                res.redirect("/nest")
+                res.redirect(req.headers.referer)
             })
         }
         
@@ -254,6 +256,46 @@ function showFlock (req, res) {
 function editFlock (req, res) {
     Flock.findByIdandUpdate(req.params.id)
     .then(() => {
-        res.redirect(`/nest/flocks/${req.params.id}`)
+        res.redirect(req.headers.referer)
+    })
+}
+
+function followProfile (req, res) {
+    Profile.findById(req.user.profile._id)
+    .then(profileFollowing => {
+        const profileFollowedFollowing = []
+        profileFollowing.following.forEach(follower => {
+            profileFollowedFollowing.push(follower.toString())
+        })
+        console.log(!profileFollowedFollowing.includes(req.params.id))
+        if(!profileFollowedFollowing.includes(req.params.id)) {
+            Profile.findById(req.params.id)
+            .then(profileFollowed => {
+                profileFollowed.followers.push(req.user.profile._id)
+                console.log(profileFollowed.followers)
+                profileFollowed.save()
+                .then(() => {
+                    profileFollowing.following.push(req.params.id)
+                    console.log(profileFollowing.following)
+                    profileFollowing.save()
+                    .then(() => {
+                        res.redirect(req.headers.referer)
+                    })
+                })
+            })
+        } else {
+            Profile.findById(req.params.id)
+            .then(profileFollowed => {
+                profileFollowing.following.remove(req.params.id)
+                profileFollowing.save()
+                .then(() => {
+                    profileFollowed.followers.remove(req.user.profile._id)
+                    profileFollowed.save()
+                    .then(() => {
+                        res.redirect(req.headers.referer)
+                    })
+                })
+            })
+        }
     })
 }
