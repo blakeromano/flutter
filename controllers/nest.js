@@ -20,6 +20,10 @@ export {
     showFlock,
     editFlock,
     followProfile,
+    index2,
+    messagesIndex,
+    messagesNew,
+    messagesShow,
 }
 function index(req, res) {
     Profile.find({})
@@ -49,6 +53,35 @@ function index(req, res) {
     .catch(err => {
         console.log(err)
         res.redirect("/choose")
+    })
+}
+function index2 (req, res) {
+    Profile.find({})
+    .sort({_id: -1})
+    .limit(5)
+    .then(profiles => {
+        Flock.find({})
+        .sort({_id: -1})
+        .limit(3)
+        .populate("profiles")
+        .then(flocks => {
+            Profile.findById(req.user.profile._id)
+            .then(profile => {
+                Post.find({author: {$in: [profile.following]}})
+                Post.find({author: req.user.profile._id})
+                .sort({_id: -1})
+                .populate("author")
+                .populate("likes")
+                .then(posts => {
+                    res.render("nest/index", {
+                        title: "Nest Home",
+                        flocks,
+                        posts,
+                        profiles,
+                    })
+                })
+            })
+        })
     })
 }
 function showProfile(req, res) {
@@ -297,5 +330,49 @@ function followProfile (req, res) {
                 })
             })
         }
+    })
+}
+
+function messagesNew (req, res) {
+    req.body.from = req.user.profile._id
+    NestMessage.create(req.body)
+    .then(message => {
+        Profile.findById(message.to)
+        .then(toProfile => {
+            toProfile.nestMessages.push(message._id)
+            toProfile.save()
+            .then(() => {
+                Profile.findById(message.from)
+                .then(fromProfile => {
+                    fromProfile.nestMessages.push(message._id)
+                    fromProfile.save()
+                    .then(() => {
+                        res.redirect(req.headers.referer)
+                    })
+                })
+            })
+        })
+    })
+}
+
+function messagesShow (req,res) {
+
+}
+function messagesIndex (req, res) {
+    NestMessage.find({from: req.user.profile._id} || {to: req.user.profile._id})
+//    NestMessage.find({to: req.user.profile._id})
+    .sort({_id: -1})
+    .populate("from")
+    .populate("to")
+    .then(messages => {
+        console.log(messages)
+        Profile.find({})
+        .then(profiles => {
+            res.render("nest/messagesIndex", {
+                title: `${req.user.profile.name}'s Chirps`,
+                messages: messages,
+                profiles: profiles,
+            })
+        })
     })
 }
