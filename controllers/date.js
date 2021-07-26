@@ -86,11 +86,8 @@ function updateProfile(req, res) {
         console.log('This is profile:', profile)
       res.redirect(`/date/${profile._id}`)
     })
-    .catch(err => {
-      console.log(err)
-      res.redirect('/')
-    })
-  }
+}
+
 function deleteProfile (req, res) {
  
 }
