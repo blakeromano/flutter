@@ -256,7 +256,7 @@ function showFlock (req, res) {
     })
 }
 function editFlock (req, res) {
-    Flock.findByIdandUpdate(req.params.id)
+    Flock.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then(() => {
         res.redirect(req.headers.referer)
     })
@@ -339,7 +339,10 @@ function messagesNew (req, res) {
 }
 
 function messagesShow (req,res) {
-    
+    // NestMessage.find({or: [{from:}]})
+    // .then(messages => {
+    //     console.log(messages)
+    // })
 }
 function messagesIndex (req, res) {
     Profile.findById(req.user.profile._id)
