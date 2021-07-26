@@ -20,7 +20,7 @@
                           <form action="/nest/posts/<%= post._id %>/like" method="POST">
                                 <button type="submit" class="btn btn-lg btn-success">Like!</button>
                           </form>
-                          <% if(post.author._id.toString() === user.profile._id.toString()) {%>
+                          <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") {%>
                           <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
                             <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
                           </form>
