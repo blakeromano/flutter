@@ -15,10 +15,27 @@
                           <h5 class="card-title text-center"><%= post.author.name %></h5>
                           <p class="card-text"><%= post.content %></p>
                           <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
+                          <div class="card-footer">
+                            <% post.comments.forEach(comment => { %>
+                              <h6><%= comment.author.name %></h6>
+                              <p><%= comment.content %></p>
+                              <% if(comment.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                                <form action="/nest/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                  <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
+                                </form>
+                              <% } %> 
+                            <% }) %>
+                            <form method="POST" action="/nest/posts/<%= post._id %>/comment">
+                              <div class="form-floating mb-3">
+                                <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
+                                <label for="content">Comment:</label>
+                                <button type="submit">Submit</button>
+                            </div>
+                            </form>
+                          </div>
                           <form action="/nest/posts/<%= post._id %>/like" method="POST">
                                 <button type="submit" class="btn btn-lg btn-success">👍</button>
                           </form>
-                          <% console.log(user.profile.name) %>
                           <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
                           <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
                             <button type="submit" class="btn btn-lg btn-danger">DELETE</button>

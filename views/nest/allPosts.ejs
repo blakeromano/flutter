@@ -17,6 +17,14 @@
                           <h5 class="card-title text-center"><%= post.author.name %></h5>
                           <p class="card-text"><%= post.content %></p>
                           <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
+                          <div class="card-footer">
+                            <form>
+                              <div class="form-floating mb-3">
+                                <textarea type="text" class="form-control" id="floatingInput" name="content" required><%= post.content %></textarea>
+                                <label for="content">Content:</label>
+                            </div>
+                            </form>
+                          </div>
                           <form action="/nest/posts/<%= post._id %>/like" method="POST">
                                 <button type="submit" class="btn btn-lg btn-success">Like!</button>
                           </form>
