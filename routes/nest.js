@@ -24,7 +24,8 @@ router.post("/:id/follow", isLoggedIn, nestCtrl.followProfile) // done not teste
 router.get("/:id", isLoggedIn, nestCtrl.showProfile) // done
 router.put("/:id", isLoggedIn, nestCtrl.updateProfile) // done
 router.delete("/:id", isLoggedIn, nestCtrl.deleteProfile)
-router.post("/posts/:id/comment", isLoggedIn, nestCtrl.newComment) //
+router.post("/posts/:id/comment", isLoggedIn, nestCtrl.newComment) // done
+router.delete("/posts/:postId/comments/:commentId", isLoggedIn, nestCtrl.deleteComment) // done
 
 
 function isLoggedIn(req, res, next) {
