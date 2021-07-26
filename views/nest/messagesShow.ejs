@@ -1,0 +1,26 @@
+<%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/nest/nav.css">
+<%- include("../partials/nest-nav") %> 
+
+<div class="row d-flex container-fluid justify-content-center">
+
+</div>
+<% messages.forEach(message => { %>
+    <h4>
+        <a href="/nest/<%= message.from._id %>">
+            <%= message.from.name %>
+        </a>: <%= message.content %></h4>
+<% }) %>
+
+<div>
+    <form action="/nest/messages/<%= otherProfileId %>" method="POST">
+        <div class="form-floating mb-3">
+            <input type="text" name="to" value="<%= otherProfileId %>" required hidden>
+            <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
+            <label for="content">Message:</label>
+            <button type="submit">Send</button>
+        </div>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>
