@@ -9,6 +9,9 @@ const router = Router()
 router.get("/", isLoggedIn, nestCtrl.index) // done
 router.get("/allProfiles", isLoggedIn, nestCtrl.indexProfiles) // done
 router.get("/allPosts", isLoggedIn, nestCtrl.indexPosts) // done
+router.get("/messages", isLoggedIn, nestCtrl.messagesIndex) // done
+router.get("/messages/:id", isLoggedIn, nestCtrl.messagesShow) // 
+router.post("/messages/:id", isLoggedIn, nestCtrl.messagesNew) // done
 router.get("/:id", isLoggedIn, nestCtrl.showProfile) // done
 router.put("/:id", isLoggedIn, nestCtrl.updateProfile) // done
 router.delete("/:id", isLoggedIn, nestCtrl.deleteProfile)

@@ -20,8 +20,12 @@ export {
     showFlock,
     editFlock,
     followProfile,
+    messagesIndex,
+    messagesNew,
+    messagesShow,
 }
-function index(req, res) {
+
+function index (req, res) {
     Profile.find({})
     .sort({_id: -1})
     .limit(5)
@@ -31,24 +35,22 @@ function index(req, res) {
         .limit(3)
         .populate("profiles")
         .then(flocks => {
-            Post.find({})
-            .sort({_id: -1})
-            .limit(10)
-            .populate("author")
-            .populate("likes")
-            .then(posts => {
-                res.render("nest/index", {
-                    title: "Nest Home",
-                    flocks,
-                    posts,
-                    profiles,
+            Profile.findById(req.user.profile._id)
+            .then(profile => {
+                Post.find({author: {$in: [profile.following]}})  // will find posts of followers can't figure out how to show own posts and people I follow
+                .sort({_id: -1})
+                .populate("author")
+                .populate("likes")
+                .then(posts => {
+                    res.render("nest/index", {
+                        title: "Nest Home",
+                        flocks,
+                        posts,
+                        profiles,
+                    })
                 })
             })
         })
-    })
-    .catch(err => {
-        console.log(err)
-        res.redirect("/choose")
     })
 }
 function showProfile(req, res) {
@@ -297,5 +299,59 @@ function followProfile (req, res) {
                 })
             })
         }
+    })
+}
+
+function messagesNew (req, res) {
+    req.body.from = req.user.profile._id
+    Profile.findById(req.user.profile._id)
+    .then(fromProfile => {
+        Profile.findById(req.body.to)
+        .then(toProfile => {
+            NestMessage.create(req.body)
+            .then(message => {
+                if(fromProfile.nestMessaged.includes(toProfile._id)) {
+                    toProfile.nestMessages.push(message._id)
+                    toProfile.save()
+                    .then(() => {
+                        fromProfile.nestMessages.push(messsage._id)
+                        fromProfile.save()
+                        .then(() => {
+                            res.redirect(req.headers.referer)
+                        })
+                    })
+                } else {
+                    toProfile.nestMessages.push(message._id)
+                    toProfile.nestMessaged.push(fromProfile._id)
+                    toProfile.save()
+                    .then(() => {
+                        fromProfile.nestMessages.push(message._id)
+                        fromProfile.nestMessaged.push(toProfile._id)
+                        fromProfile.save()
+                        .then(() => {
+                            res.redirect(req.headers.referer)
+                        })
+                    })
+                }
+            })
+        })
+    })
+}
+
+function messagesShow (req,res) {
+    
+}
+function messagesIndex (req, res) {
+    Profile.findById(req.user.profile._id)
+    .populate("nestMessaged")
+    .then(profile => {
+        Profile.find({})
+        .then(profiles => {
+            res.render("nest/messagesIndex", {
+                title: `${profile.name}'s Messages`,
+                profile: profile,
+                profiles: profiles,
+            })
+        })
     })
 }

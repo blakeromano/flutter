@@ -1,8 +1,6 @@
 <%- include('../partials/html-head') %>
 <link rel="stylesheet" href="/stylesheets/nest/nav.css">
 <%- include("../partials/nest-nav") %> 
-</head>
-<body>
 
 <main>
     <div class="row d-flex container-fluid">
@@ -84,10 +82,10 @@
               <h3>New Profiles</h3>
                 <% profiles?.forEach(profile => { %>
                     <div class="card">
+                      <div class="card-body">
                         <% if (profile.avatar) { %> 
-                            <img style="height: 100px; width: 100px;" src="<%= profile.avatar %>" class="card-img" alt="<%= profile.name %>'s Avatar">
+                            <img style="height: 100px; width: 100px;" src="<%= profile.avatar %>" class="card-img rounded-circle" alt="<%= profile.name %>'s Avatar">
                         <% } %> 
-                            <div class="card-body">
                               <h5 class="card-title text-center"><%= profile.name %></h5>
                               <% if (user.profile._id.toString() !== profile._id.toString()) { %>
                                 <form action="/nest/<%= profile._id %>/follow" method="POST">
