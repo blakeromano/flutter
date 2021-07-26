@@ -77,6 +77,10 @@ const profileSchema = new mongoose.Schema({
   }],
   bio: String,
   moderator: Boolean,
+  nestMessaged: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile"
+  }]
 }, {
   timestamps: true
 })

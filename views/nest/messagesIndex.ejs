@@ -44,10 +44,17 @@
         </div>
     </div>
     <div class="row">
-        <% messages.forEach(message => { %>
-            <h4><%= message.from.name %></h4>
-            <p><%= message.content %></p>
-            <h4><%= message.to.name %></h4>
+        <% profile?.nestMessaged.forEach(person => { %>
+            <a href="/nest/messages/<%= person._id %>">
+                <div class="card">
+                    <div class="card-body">
+                      <% if (person.avatar) { %> 
+                            <img style="height: 100px; width: 100px;" src="<%= person.avatar %>" class="card-img rounded-circle" alt="<%= person.name %>'s Avatar">
+                      <% } %> 
+                            <h5 class="card-title text-center"><%= person.name %></h5>
+                    </div>
+                </div>
+            </a>
         <% }) %>
     </div>
 </div>
