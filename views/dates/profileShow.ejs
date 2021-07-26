@@ -14,17 +14,13 @@
                 <p>Favorite Bird: <%= profile.favBird %></p>
                 <p>Birthday: <%= profile.birthday %></p>
                 <p>Biography: <%= profile.bio %></p>
-                <% if (user.profile._id.toString() === profile._id.toString()) { %>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#updateProfile">Update Profile</button>
-                    <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button>
-                    <% } %>
                 </div>
             </div>
 
             <% if (user.profile._id.toString() === profile._id.toString()) { %>
-              <a href="/date/<%= profile._id %>/schmedit"><button>Edit Profile</button></a>
+              <a href="/date/<%= profile._id %>/schmedit"><button class="btn btn-lg btn-primary">Edit Profile</button></a>
            
-            <form action="/dates/<%= profile._id %>/schmedit" method="POST">
+            <form action="https://www.goodnes.com/hot-pockets/products/hickory-ham-cheddar-5-pack/" method="POST">
               <button type="submit" class="btn btn-lg btn-primary">Updare</button>
             </form>
             <form action="/dates/<%= profile._id %>/schmedit" method="GET">
