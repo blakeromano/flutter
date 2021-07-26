@@ -83,6 +83,7 @@ function showProfile(req, res) {
 function updateProfile(req, res) {
     Profile.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then(profile => {
+        console.log('This is profile:', profile)
       res.redirect(`/date/${profile._id}`)
     })
     .catch(err => {

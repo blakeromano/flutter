@@ -23,6 +23,7 @@ export {
     messagesIndex,
     messagesNew,
     messagesShow,
+    newComment,
 }
 
 function index (req, res) {
@@ -314,7 +315,7 @@ function messagesNew (req, res) {
                     toProfile.nestMessages.push(message._id)
                     toProfile.save()
                     .then(() => {
-                        fromProfile.nestMessages.push(messsage._id)
+                        fromProfile.nestMessages.push(message._id)
                         fromProfile.save()
                         .then(() => {
                             res.redirect(req.headers.referer)
@@ -339,10 +340,20 @@ function messagesNew (req, res) {
 }
 
 function messagesShow (req,res) {
-    // NestMessage.find({or: [{from:}]})
-    // .then(messages => {
-    //     console.log(messages)
-    // })
+    NestMessage.find({$or: [
+        {$and: [{to: req.user.profile._id}, {from: req.params.id}]},
+        {$and: [{to: req.params.id}, {from: req.user.profile._id}]}
+    ]})
+    .populate("to")
+    .populate("from")
+    .then(messages => {
+        const otherProfileId = req.params.id
+        res.render("nest/messagesShow", {
+            title: "Messages",
+            messages: messages,
+            otherProfileId: otherProfileId,
+        })
+    })
 }
 function messagesIndex (req, res) {
     Profile.findById(req.user.profile._id)
@@ -357,4 +368,8 @@ function messagesIndex (req, res) {
             })
         })
     })
+}
+
+function newComment (req, res) {
+    
 }

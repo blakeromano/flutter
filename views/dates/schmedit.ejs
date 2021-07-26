@@ -3,7 +3,7 @@
   <%- include("../partials/nav") %> 
 <h1>Update User</h1>
 <main>
-<form class="submit-form" method="GET" 
+<form class="submit-form" method="POST" 
 action="/date/<%= profile._id %>?_method=PUT">
 
     <div class="form-floating row mb-3">
@@ -33,27 +33,23 @@ action="/date/<%= profile._id %>?_method=PUT">
     </div>
     
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="country" required>
+        <input type="text" class="form-control" id="floatingInput" name="country">
         <label for="country">Country:</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="state" required>
+        <input type="text" class="form-control" id="floatingInput" name="state">
         <label for="name">State:</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="city/town" required>
+        <input type="text" class="form-control" id="floatingInput" name="city/town">
         <label for="city">City/Town:</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="hobbies" required>
-        <label for="name">Hobbies:</label>
+        <input type="text" class="form-control" id="floatingInput" name="birthday">
+        <label for="birtday">Birthday:</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="birthday" required>
-        <label for="name">Birthday:</label>
-    </div>
-    <div class="form-floating mb-3">
-        <textarea type="text" class="form-control" id="floatingInput" name="bio" required></textarea>
+        <textarea type="text" class="form-control" id="floatingInput" name="bio"></textarea>
         <label for="bio">Bio:</label>
     </div>
         <button type="submit" class="btn btn-primary">Update Profile!</button>
