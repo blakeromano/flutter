@@ -13,9 +13,9 @@
 <% }) %>
 
 <div>
-    <form action="/nest/messages/<%= otherProfileId %>" method="POST">
+    <form action="/nest/messages/<%= otherProfile._id %>" method="POST">
         <div class="form-floating mb-3">
-            <input type="text" name="to" value="<%= otherProfileId %>" required hidden>
+            <input type="text" name="to" value="<%= otherProfile._id %>" required hidden>
             <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
             <label for="content">Message:</label>
             <button type="submit">Send</button>
