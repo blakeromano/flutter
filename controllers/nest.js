@@ -24,6 +24,7 @@ export {
     messagesNew,
     messagesShow,
     newComment,
+    deleteComment,
 }
 
 function index (req, res) {
@@ -40,6 +41,10 @@ function index (req, res) {
             .then(profile => {
                 Post.find({author: {$in: [profile.following]}})  // will find posts of followers can't figure out how to show own posts and people I follow
                 .sort({_id: -1})
+                .populate({
+                    path: "comments.author",
+                    model: "Profile"
+                })
                 .populate("author")
                 .populate("likes")
                 .then(posts => {
@@ -371,5 +376,24 @@ function messagesIndex (req, res) {
 }
 
 function newComment (req, res) {
-    
+    req.body.author = req.user.profile._id
+    Post.findById(req.params.id)
+    .then(post => {
+        post.comments.push(req.body)
+        post.save()
+        .then(() => {
+            res.redirect(req.headers.referer)
+        })
+    })
+}
+
+function deleteComment (req, res) {
+    Post.findById(req.params.postId)
+    .then(post => {
+        post.comments.remove(req.params.commentId)
+        post.save()
+        .then(() => {
+            res.redirect(req.headers.referer)
+        })
+    })
 }
