@@ -2,9 +2,10 @@
 <link rel="stylesheet" href="/stylesheets/nest/nav.css">
 <link rel="stylesheet" href="/stylesheets/nest/index.css">
 <%- include("../partials/nest-nav") %> 
+
 <main>
   <div class="d-flex row container-fluid">
-    <div class="col-8 container-fluid">
+    <div class="col-md-8 container-fluid">
       <h3 class="text-center section-header">New Posts From People You Follow</h3>
         <% posts.forEach(post => { %>
             <div class="card">
@@ -58,7 +59,6 @@
                       </div>
                     </div>
                 </div>
-              </div>
               <div class="modal" id="editPost" tabindex="-1" aria-labelledby="editPost" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -86,7 +86,8 @@
                 </div>
               </div>
         <% }) %> 
-    <div class="container-fluid col-4">
+    </div>
+    <div class="container-fluid col-md-4">
       <div class="container-fluid">
         <h3 class="text-center section-header">New Flocks</h3>
         <% flocks?.forEach(flock => { %>
@@ -123,7 +124,7 @@
                     <% if (user.profile._id.toString() !== profile._id.toString()) { %>
                       <div class="d-flex justify-content-center">
                         <form action="/nest/<%= profile._id %>/follow" method="POST">
-                          <button type="submit" class="btn btn-lg btn-primary">Follow <%= profile.name %></button>
+                          <button type="submit" class="btn btn-lg btn-primary mw-75">Follow <%= profile.name %></button>
                         </form>
                         <% } %>
                       </div>
@@ -134,11 +135,8 @@
                       </div>
                     </div>
                   </div>
+                  <% }) %> 
                 </div>
-                <% }) %> 
-              </div>
-    </div>
-  </div>
   </div>
 </main>
 <%- include('../partials/footer') %>
