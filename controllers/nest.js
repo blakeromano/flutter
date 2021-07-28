@@ -39,18 +39,16 @@ function index (req, res) {
         .then(flocks => {
             Profile.findById(req.user.profile._id)
             .then(profile => {
-                Post.find({$or: [
-                    {author: {$in: [profile.following]}},
-                    {author: profile._id}
-                ]}) 
+                Post.find({author:{$in:[...profile.following, req.user.profile._id]}})
                 .sort({_id: -1})
                 .populate({
                     path: "comments.author",
                     model: "Profile"
                 })
                 .populate("author")
-                .populate("likes")
+                // .populate("likes")
                 .then(posts => {
+                    console.log(flocks[0].profiles[0])
                     res.render("nest/index", {
                         title: "Nest Home",
                         flocks,
@@ -77,15 +75,16 @@ function showProfile(req, res) {
         model: "Post",
         populate: {
             path: "comments.author",
-            model: "Profile",
+            model: "Profile"
         },
+    })
+    .populate({
+        path:"posts",
         populate: {
             path: "author",
-            model: "Profile"
+            model: "Profile",
         }
     })
-    .populate("following")
-    .populate("followers")
     .then(profile => {
         res.render("nest/profileShow", {
             title: `${profile.name}'s Profile`,
@@ -270,12 +269,24 @@ function indexProfiles(req, res) {
 }
 function showFlock (req, res) {
     Flock.findById(req.params.id)
-    .populate("profiles")
-    .populate("posts")
     .then(flock => {
-        res.render("nest/showFlock", {
-            title: `${flock.name} Flock`,
-            flock,
+        Post.find({author: {$in: [flock.profiles]}})
+        .populate("author")
+        .populate({
+            path: "comments.author",
+            model: "Profile"
+        })
+        .then(posts => {
+            Flock.findById(req.params.id)
+            .populate("profiles")
+            .then(flock => {
+                res.render("nest/showFlock", {
+                    title: `${flock.name} Flock`,
+                    flock,
+                    posts,
+                })
+
+            })
         })
     })
 }

@@ -31,15 +31,136 @@
     <h1 class="text-center"><%= flock.name %></h1>
     <h2 class="text-center">Created by: <%= flock.profiles[0].name %></h2>
     <h2 class="text-center">Members: <%= flock.memberCount %></h2>
-    <% if (user.profile._id.toString() === flock.profiles[0]._id.toString() || user.profile.name == "Blake Romano") { %>
-      <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editFlock">Edit Flock</button>
-      <!-- <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button> -->
-      <% } %>
-    <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
+    <div class="d-flex justify-content-center">
+      <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
         <% if (user) { %>
-            <button type="submit" class="btn btn-success">Join Flock!</button>
+          <button type="submit" class="btn btn-success">Join/Leave Flock!</button>
+          <% } %>
+          <% if (user.profile._id.toString() === flock.profiles[0]._id.toString() || user.profile.name == "Blake Romano") { %>
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editFlock">Edit Flock</button>
             <% } %>
-        </form>
+          </form>
+        </div>
+</div>
+<div class="d-flex container-fluid mx-3">
+  <div class="col-8">
+    <h3 class="text-center section-header">Flock Members Posts</h3>
+    <% posts.forEach(post => { %>
+        <div class="card">
+        <% if (post.image) { %> 
+                <img src="" class="card-img-top" alt="...">
+                <% } %> 
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-9">
+                      <p class="card-text"><%= post.content %></p>
+                      <a class="card-text my-3" href="/nest/<%= post.author._id %>"><%= post.author.name %></a>
+                      <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
+                    </div>
+                    <div class="col-3 d-flex justify-content-center">
+                      <% if (!post.likes.includes(user.profile._id)) { %>
+                        <form action="/nest/posts/<%= post._id %>/like" method="POST">
+                              <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-success">👍</button>
+                        </form>
+                      <% } else {%>
+                        <form action="/nest/posts/<%= post._id %>/like" method="POST">
+                          <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-danger">👎</button>
+                        </form>
+                      <% } %>
+                      <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                      <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
+                        <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-danger">X</button>
+                      </form>
+                      <button style="height: 46.45px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPost">
+                        Edit
+                    </button>  
+                      <% } %> 
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <% post.comments.forEach(comment => { %>
+                      <div class="row">
+                        <div class="col-11">
+                          <h6><%= comment.author.name %></h6>
+                          <p><%= comment.content %></p>
+                        </div>
+                        <div class="col-1">
+                          <% if(comment.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                            <form action="/nest/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                              <button type="submit" class="btn btn-lg btn-danger">X</button>
+                            </form>
+                          <% } %> 
+                        </div>
+                      </div>
+                    <% }) %>
+                    <form method="POST" action="/nest/posts/<%= post._id %>/comment">
+                      <div class="form-floating mb-3">
+                        <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
+                        <label for="content">Comment:</label>
+                        <button type="submit">Submit</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+          <div class="modal" id="editPost" tabindex="-1" aria-labelledby="editPost" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editPost">Edit Post</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form class="submit-form" action="/nest/posts/<%= post._id %>?_method=PUT" method="POST">
+                    <div class="form-floating mb-3">
+                        <textarea type="text" class="form-control" id="floatingInput" name="content" required><%= post.content %></textarea>
+                        <label for="content">Content:</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" name="image" value="<%= post.image %>" >
+                        <label for="image">Image URL:</label>
+                    </div>
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Post!</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    <% }) %> 
+  </div>
+  <div class="col-4">
+    <h3 class="text-center section-header profile-header">Members</h3>
+    <% flock.profiles.forEach(profile => { %>
+      <div class="card width-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-center">
+            <% if (profile.avatar) { %> 
+              <img style="height: 100px; width: 100px;" src="<%= profile.avatar %>" class="card-img rounded-circle" alt="<%= profile.name %>'s Avatar">
+              <% } %> 
+          </div>
+            <h5 class="card-title text-center"><%= profile.name %></h5>
+            <% if (flock.profiles[0]._id.toString() === profile._id.toString()) { %>
+              <h5 class="card-title text-center">Owner of Flock</h5>
+            <% } %>
+            <% if (user.profile._id.toString() !== profile._id.toString()) { %>
+              <div class="d-flex justify-content-center">
+                <form action="/nest/<%= profile._id %>/follow" method="POST">
+                  <button type="submit" class="btn btn-lg btn-primary mw-75">Follow <%= profile.name %></button>
+                </form>
+                <% } %>
+              </div>
+              <div class="d-flex justify-content-center">
+                <form action="/nest/<%= profile._id %>" method="GET">
+                  <button type="submit" class="btn btn-lg btn-primary">Go to Profile</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <% }) %> 
+  </div>
 </div>
 
 <%- include('../partials/footer') %>
