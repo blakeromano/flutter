@@ -130,6 +130,10 @@ function newPost (req, res) {
 }
 function indexPosts (req, res) {
     Post.find()
+    .populate({
+        path: "comments.author",
+        model: "Profile"
+    })
     .populate("author")
     .then(posts => {
         res.render("nest/allPosts", {
