@@ -98,6 +98,30 @@
                             </div>
                         </div>
                         </div>
+                        <div class="card-footer">
+                            <% post.comments.forEach(comment => { %>
+                              <div class="row">
+                                <div class="col-11">
+                                  <h6><%= comment.author.name %></h6>
+                                  <p><%= comment.content %></p>
+                                </div>
+                                <div class="col-1">
+                                  <% if(comment.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                                    <form action="/nest/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                      <button type="submit" class="btn btn-danger">X</button>
+                                    </form>
+                                  <% } %> 
+                                </div>
+                              </div>
+                            <% }) %>
+                            <form method="POST" action="/nest/posts/<%= post._id %>/comment">
+                              <div class="form-floating mb-3">
+                                <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
+                                <label for="content">Comment:</label>
+                                <button type="submit">Submit</button>
+                            </div>
+                            </form>
+                          </div>
                         </div>
                   </div>
                   <div class="modal" id="editPost" tabindex="-1" aria-labelledby="editPost" aria-hidden="true">

@@ -72,7 +72,18 @@ function showProfile(req, res) {
             model: "Profile"
         }
     })
-    .populate("posts")
+    .populate({
+        path: "posts",
+        model: "Post",
+        populate: {
+            path: "comments.author",
+            model: "Profile",
+        },
+        populate: {
+            path: "author",
+            model: "Profile"
+        }
+    })
     .populate("following")
     .populate("followers")
     .then(profile => {
