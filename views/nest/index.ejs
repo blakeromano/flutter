@@ -5,7 +5,7 @@
 
 <main>
   <div class="d-flex row container-fluid">
-    <div class="col-8 container-fluid">
+    <div class="col-md-8 container-fluid">
       <h3 class="text-center section-header">New Posts From People You Follow</h3>
         <% posts.forEach(post => { %>
             <div class="card">
@@ -15,8 +15,8 @@
                     <div class="card-body">
                       <div class="row">
                         <div class="col-9">
-                          <h5 class="card-title text-center"><%= post.author.name %></h5>
                           <p class="card-text"><%= post.content %></p>
+                          <a class="card-text my-3" href="/nest/<%= post.author._id %>"><%= post.author.name %></a>
                           <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
                         </div>
                         <div class="col-3 d-flex justify-content-center">
@@ -59,7 +59,6 @@
                       </div>
                     </div>
                 </div>
-              </div>
               <div class="modal" id="editPost" tabindex="-1" aria-labelledby="editPost" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -87,7 +86,8 @@
                 </div>
               </div>
         <% }) %> 
-    <div class="container-fluid col-4">
+    </div>
+    <div class="container-fluid col-md-4">
       <div class="container-fluid">
         <h3 class="text-center section-header">New Flocks</h3>
         <% flocks?.forEach(flock => { %>
@@ -97,13 +97,15 @@
                 <h5 class="card-title text-center"><%= flock.name %></h5>
                 <h6 class="card-text text-center">Created by <%= flock.profiles[0].name %></h6>
                 <p class="card-text text-center">Members: <%= flock.memberCount %></p>
-                <p class="card-text"><%= flock.desc %></p>
+                <p class="card-text text-center"><%= flock.desc %></p>
               </div>
-              <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
-                <% if (user) { %>
-                  <button type="submit" class="btn btn-success">Join Flock!</button>
-                  <% } %>
-                </form>
+              <div class="d-flex justify-content-center">
+                <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
+                  <% if (user) { %>
+                    <button type="submit" class="btn btn-success">Join Flock!</button>
+                    <% } %>
+                  </form>
+              </div>
               </div>
             </a>
             <% }) %> 
@@ -122,7 +124,7 @@
                     <% if (user.profile._id.toString() !== profile._id.toString()) { %>
                       <div class="d-flex justify-content-center">
                         <form action="/nest/<%= profile._id %>/follow" method="POST">
-                          <button type="submit" class="btn btn-lg btn-primary">Follow <%= profile.name %></button>
+                          <button type="submit" class="btn btn-lg btn-primary mw-75">Follow <%= profile.name %></button>
                         </form>
                         <% } %>
                       </div>
@@ -133,13 +135,8 @@
                       </div>
                     </div>
                   </div>
+                  <% }) %> 
                 </div>
-                <% }) %> 
-              </div>
-    </div>
-  </div>
-
   </div>
 </main>
-
 <%- include('../partials/footer') %>

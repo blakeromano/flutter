@@ -1,6 +1,6 @@
 <%- include('../partials/html-head') %>
 <link rel="stylesheet" href="/stylesheets/nest/nav.css">
-<%- include("../partials/nest-nav") %> 
+<%- include("../partials/nav") %> 
 <div class="modal" id="newMessage" tabindex="-1" aria-labelledby="newMessage" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -9,7 +9,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="submit-form" action="/nest/messages/<%= user.profile._id %>" method="POST">
+          <form class="submit-form" action="/date/messageShow/<%= user.profile._id %>" method="POST">
             <div class="form-floating row mb-3">
                 <div class="col-3">
                     <label for="to">Send to:</label>
@@ -37,28 +37,26 @@
       </div>
     </div>
   </div>
-<div class="row d-flex container-fluid my-3">
-    <div>
-        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#newMessage">New Message</button>
+<div class="container-fluid d-flex">
+    <div class="row d-flex justify-content-end container-fluid">
+        <div>
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#newMessage">New Message</button>
+        </div>
     </div>
-</div>
-<div class="d-flex flex-wrap">
-    <% let profileIndex = 0 %> 
-    <% profile?.nestMessaged.forEach(person => { %>
-        <div class="col-md-4">
-            <a href="/nest/messages/<%= person._id %>">
-                <div class="card" style="height: 140px; width: 300px;">
-                    <div class="card-body d-flex align-items-center justify-content-center">
+    <div class="row">
+        <% profile.dateMessaged?.forEach(person => { %>
+            <a href="/dates/messageShow/<%= person._id %>">
+                <div class="card">
+                    <div class="card-body">
                       <% if (person.avatar) { %> 
                             <img style="height: 100px; width: 100px;" src="<%= person.avatar %>" class="card-img rounded-circle" alt="<%= person.name %>'s Avatar">
                       <% } %> 
-                            <h5 class="ms-2 card-title text-center"><%= person.name %></h5>
+                            <h5 class="card-title text-center"><%= person.name %></h5>
                     </div>
                 </div>
             </a>
-        </div>
         <% }) %>
-
+    </div>
 </div>
 
 <%- include('../partials/footer') %>

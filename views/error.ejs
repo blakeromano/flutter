@@ -1,8 +1,3 @@
-<h1><%= error.status %>! That's No Good!</h1>
-
-
-<img id='404' src='/images/404.png'>
-
-
-<h2>Oh No!<br> We got a problem!<br>But keep it cool!</h3>
-<a href="/choose"><button id="errorBtn">Go Home</button></a>
+<h1><%= message %></h1>
+<h2><%= error.status %></h2>
+<pre><%= error.stack %></pre>

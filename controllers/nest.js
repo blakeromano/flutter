@@ -39,7 +39,10 @@ function index (req, res) {
         .then(flocks => {
             Profile.findById(req.user.profile._id)
             .then(profile => {
-                Post.find({author: {$in: [profile.following]}})  // will find posts of followers can't figure out how to show own posts and people I follow
+                Post.find({$or: [
+                    {author: {$in: [profile.following]}},
+                    {author: profile._id}
+                ]}) 
                 .sort({_id: -1})
                 .populate({
                     path: "comments.author",
@@ -69,7 +72,18 @@ function showProfile(req, res) {
             model: "Profile"
         }
     })
-    .populate("posts")
+    .populate({
+        path: "posts",
+        model: "Post",
+        populate: {
+            path: "comments.author",
+            model: "Profile",
+        },
+        populate: {
+            path: "author",
+            model: "Profile"
+        }
+    })
     .populate("following")
     .populate("followers")
     .then(profile => {
@@ -127,6 +141,10 @@ function newPost (req, res) {
 }
 function indexPosts (req, res) {
     Post.find()
+    .populate({
+        path: "comments.author",
+        model: "Profile"
+    })
     .populate("author")
     .then(posts => {
         res.render("nest/allPosts", {
@@ -184,7 +202,7 @@ function joinFlock (req, res) {
             .then(() => {
                 Profile.findById(req.user.profile._id)
                 .then(profile => {
-                    profile.flocks.push(flock._id)
+                    profile.flocks.remove(flock._id)
                     profile.save()
                     .then(() => {
                         res.redirect(req.headers.referer)
@@ -280,11 +298,9 @@ function followProfile (req, res) {
             Profile.findById(req.params.id)
             .then(profileFollowed => {
                 profileFollowed.followers.push(req.user.profile._id)
-                console.log(profileFollowed.followers)
                 profileFollowed.save()
                 .then(() => {
                     profileFollowing.following.push(req.params.id)
-                    console.log(profileFollowing.following)
                     profileFollowing.save()
                     .then(() => {
                         res.redirect(req.headers.referer)

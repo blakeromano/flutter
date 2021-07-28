@@ -1,9 +1,7 @@
-// import { Profile } from "../models/profile.js"
-// import { Post } from "../models/post.js"
 import { Profile } from "../models/profile.js"
 import { Post } from "../models/post.js"
 import { Flock } from "../models/flock.js"
-import { NestMessage } from "../models/nestMessage.js"
+import { DateMessage } from "../models/dateMessage.js"
 import { User } from "../models/user.js"
  
  
@@ -12,16 +10,12 @@ export {
     showProfile,
     updateProfile,
     deleteProfile as delete,
-    newPost,
-    indexPosts,
-    updatePost,
-    deletePost,
-    showPost,
     editProfile,
+    messageIndex,
+    messageNew,
+    messageShow,
     
 }
-// function index(req, res) {
-// res.render('dates/index')
  
 function editProfile(req, res) {
     Profile.findById(req.params.id)
@@ -89,20 +83,92 @@ function updateProfile(req, res) {
 }
 
 function deleteProfile (req, res) {
- 
+     User.findByIdAndDelete(req.user._id)
+    .then(user => {
+        Profile.findByIdAndDelete(req.user.profile._id)
+        .then(profile => {
+            Post.deleteMany({author: profile._id})
+            .then(() => {
+
+            })
+            res.redirect("/")
+        })
+    })
+    .catch(err => {
+        console.log(err)
+        res.redirect("/choose")
+    })
 }
-function newPost (req, res) {
- 
+
+function messageNew (req, res) {
+    req.body.from = req.user.profile._id
+    Profile.findById(req.user.profile._id)
+    .then(fromProfile => {
+        Profile.findById(req.body.to)
+        .then(toProfile => {
+            DateMessage.create(req.body)
+            .then(message => {
+                if(fromProfile.dateMessaged.includes(toProfile._id)) {
+                    toProfile.dateMessages.push(message._id)
+                    toProfile.save()
+                    .then(() => {
+                        fromProfile.dateMessages.push(message._id)
+                        fromProfile.save()
+                        .then(() => {
+                            res.redirect(req.headers.referer)
+                        })
+                    })
+                } else {
+                    toProfile.dateMessages.push(message._id)
+                    toProfile.dateMessaged.push(fromProfile._id)
+                    toProfile.save()
+                    .then(() => {
+                        fromProfile.dateMessages.push(message._id)
+                        fromProfile.dateMessaged.push(toProfile._id)
+                        fromProfile.save()
+                        .then(() => {
+                            res.redirect(req.headers.referer)
+                        })
+                    })
+                }
+            })
+        })
+    })
 }
-function indexPosts (req, res) {
- 
+
+function messageShow (req,res) {
+    DateMessage.find({$or: [
+        {$and: [{to: req.user.profile._id}, {from: req.params.id}]},
+        {$and: [{to: req.params.id}, {from: req.user.profile._id}]}
+    ]})
+    .populate("to")
+    .populate("from")
+    .then(messages => {
+        Profile.findById(req.user.profile._id)
+        .then(usersProfile => {
+            Profile.findById(req.params.id)
+            .then(otherProfile => {
+                res.render("dates/messageShow", {
+                    title: "Messages",
+                    messages: messages,
+                    otherProfile,
+                    usersProfile,
+                })
+            })
+        })
+    })
 }
-function updatePost (req, res) {
- 
-}
-function deletePost (req, res) {
- 
-}
-function showPost (req, res) {
- 
+function messageIndex (req, res) {
+    Profile.findById(req.user.profile._id)
+    .populate("dateMessaged")
+    .then(profile => {
+        Profile.find({})
+        .then(profiles => {
+            res.render("dates/messageIndex", {
+                title: `${profile.name}'s Messages`,
+                profile: profile,
+                profiles: profiles,
+            })
+        })
+    })
 }
