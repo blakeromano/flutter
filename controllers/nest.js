@@ -184,7 +184,7 @@ function joinFlock (req, res) {
             .then(() => {
                 Profile.findById(req.user.profile._id)
                 .then(profile => {
-                    profile.flocks.push(flock._id)
+                    profile.flocks.remove(flock._id)
                     profile.save()
                     .then(() => {
                         res.redirect(req.headers.referer)

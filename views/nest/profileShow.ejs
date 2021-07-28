@@ -68,30 +68,37 @@
           </div>
         </div>
       </div>
-    <div class="row d-flex container-fluid">
-        <div class="col-6 container-fluid">
-            <% profile.posts?.forEach(post => { %>
+    <div class="d-flex row container-fluid">
+        <div class="col-8 container-fluid">
+            <h1 class="text-center"><%= profile.name %>'s Posts</h1>
+            <% profile.posts.forEach(post => { %>
                 <div class="card">
                 <% if (post.image) { %> 
                         <img src="" class="card-img-top" alt="...">
                         <% } %> 
                         <div class="card-body">
-                          <h5 class="card-title text-center"><%= post.author.name %></h5>
-                          <p class="card-text"><%= post.content %></p>
-                          <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
-                          <form action="/nest/posts/<%= post._id %>/like" method="POST">
-                                <button type="submit" class="btn btn-lg btn-success">Like!</button>
-                          </form>
-                          <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") {%>
-                          <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
-                            <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
-                          </form>
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPost">
-                            Edit Post
-                        </button>  
-                          <% } %> 
+                          <div class="row">
+                            <div class="col-9">
+                              <p class="card-text"><%= post.content %></p>
+                              <a class="card-text my-3" href="/nest/<%= post.author._id %>"><%= post.author.name %></a>
+                              <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
+                            </div>
+                            <div class="col-3 d-flex justify-content-center">
+                              <form action="/nest/posts/<%= post._id %>/like" method="POST">
+                                    <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-success">👍</button>
+                              </form>
+                              <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                              <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
+                                <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-danger">X</button>
+                              </form>
+                              <button style="height: 46.45px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPost">
+                                Edit
+                            </button>  
+                              <% } %> 
+                            </div>
                         </div>
-                    </div>
+                        </div>
+                        </div>
                   </div>
                   <div class="modal" id="editPost" tabindex="-1" aria-labelledby="editPost" aria-hidden="true">
                     <div class="modal-dialog">
@@ -118,46 +125,48 @@
                         </form>
                       </div>
                     </div>
-                  </div>
             <% }) %> 
         </div>
-        <div class="col-6 container-fluid">
-            <div class="row container-fluid">
-                <h3><%= profile.name %>'s Flocks</h3>
+        <div class="col-4 container-fluid">
+            <div class="p-3"style="border: rgba(128, 128, 128, 0.15) solid 2px">
+                <div class="text-center">
+                    <h1>Profile Information</h1>
+                    <img height="150px" width="150px" src="<%= profile.avatar %> " alt="<%= profile.name %>'s avatar">
+                    <h2><%= profile.name %></h2>
+                    <% if (profile.moderator === true) { %>
+                        <h3>Moderator ⚒</h3>
+                    <% } %>
+                    <h4>Followers: <%= profile.followers.length %></h4>
+                    <h4>Following: <%= profile.following.length %></h4>
+                </div>
+            <p>Age: <%= profile.age %></p>
+            <p>Gender: <%= profile.gender %></p>
+            <p>Location: <%= profile.city %>, <%= profile.state %>, <%= profile.country %></p>
+            <p>Favorite Bird: <%= profile.favBird %></p>
+            <p>Birthday: <%= profile.birthday %></p>
+            <p>Biography: <%= profile.bio %></p>
+            <% if (user.profile._id.toString() === profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#updateProfile">Update Profile</button>
+                <!-- <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button> -->
+                <% } %>
+            </div>
+                <h3 class="text-center my-3"><%= profile.name %>'s Flocks</h3>
                 <% profile.flocks?.forEach(flock => { %>
                     <a href="/nest/flocks/<%= flock._id %>">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title text-center"><%= flock.name %> - Created by <%= flock.profiles[0].name %></h5>
-                                <p class="card-text"><%= flock.desc %></p>
+                        <div class="card my-2">
+                            <div class="card-body p-3">
+                                <h5 class="card-title text-center"><%= flock.name %></h5>
+                                <h5 class="card-title text-center">Created by <%= flock.profiles[0].name %></h5>
+                                <p class="card-text text-center"><%= flock.desc %></p>
                             </div>
                         </div>
                     </a>
-                <% }) %> 
-            </div>
-            <div class="row">
+                </div>
+                    <% }) %> 
                 <div>
-                    <div class="text-center">
-                        <h1>Profile Information</h1>
-                        <img height="150px" width="150px" src="<%= profile.avatar %> " alt="<%= profile.name %>'s avatar">
-                        <h2><%= profile.name %></h2>
-                        <% if (profile.moderator === true) { %>
-                            <h3>Moderator ⚒</h3>
-                        <% } %>
-                        <h4>Followers: <%= profile.followers.length %></h4>
-                        <h4>Following: <%= profile.following.length %></h4>
-                    </div>
-                <p>Age: <%= profile.age %></p>
-                <p>Gender: <%= profile.gender %></p>
-                <p>Location: <%= profile.city %>, <%= profile.state %>, <%= profile.country %></p>
-                <p>Favorite Bird: <%= profile.favBird %></p>
-                <p>Birthday: <%= profile.birthday %></p>
-                <p>Biography: <%= profile.bio %></p>
-                <% if (user.profile._id.toString() === profile._id.toString() || user.profile.name == "Blake Romano") { %>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#updateProfile">Update Profile</button>
-                    <!-- <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button> -->
-                    <% } %>
                 </div>
             </div>
+        </div>
+</div>
 
 <%- include('../partials/footer') %>
