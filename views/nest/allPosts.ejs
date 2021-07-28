@@ -21,9 +21,15 @@
                                 <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
                               </div>
                               <div class="col-3 d-flex justify-content-center">
-                                <form action="/nest/posts/<%= post._id %>/like" method="POST">
-                                      <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-success">👍</button>
-                                </form>
+                                <% if (!post.likes.includes(user.profile._id)) { %>
+                                  <form action="/nest/posts/<%= post._id %>/like" method="POST">
+                                        <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-success">👍</button>
+                                  </form>
+                                <% } else {%>
+                                  <form action="/nest/posts/<%= post._id %>/like" method="POST">
+                                    <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-danger">👎</button>
+                                  </form>
+                                <% } %>
                                 <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
                                 <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
                                   <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-danger">X</button>

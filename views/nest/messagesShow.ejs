@@ -33,7 +33,7 @@
     <form class="d-flex container-fluid justify-content-around my-3" action="/nest/messages/<%= otherProfile._id %>" method="POST">
         <div class="col-10 form-floating mb-3">
             <input type="text" name="to" value="<%= otherProfile._id %>" required hidden>
-            <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
+            <textarea rows="4" type="text" class="form-control" id="floatingInput" name="content" required></textarea>
             <label for="content">Message:</label>
         </div>
         <div class="col-1">

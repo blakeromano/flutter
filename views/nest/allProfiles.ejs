@@ -5,12 +5,8 @@
 <body>
 
 <main>
-      <% let profileIndex = 0 %> 
               <h3>All Profiles</h3>
                 <% profiles?.forEach(profile => { %>
-                  <% if (profileIndex % 6 === 0) { %>
-                   <div class="row">
-                     <% } %>
                      <div class="col-md-2">
                        <div class="card">
                          <div class="card-body">
@@ -24,11 +20,7 @@
                           </div>
                         </div>
                       </div>
-                    <% if (profileIndex % 6 === 5) { %>
-                    </div>
-                    <% } %>
-                    <% profileIndex = profileIndex + 1 %>
-                <% }) %> 
+                      <% }) %>
 </main>
 
 <%- include('../partials/footer') %>
