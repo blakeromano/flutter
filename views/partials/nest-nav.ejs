@@ -1,17 +1,28 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-light bg-light d-flex justify-content-start">  
+<nav class="navbar d-flex justify-content-start">  
 <div class="dropdown">
     <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
       <img src="/images/auth/google/birdcon.png" width="50" height="50" alt="Bird">
     </button>   
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><button type="button"  class="btn btn-primary drop-btn">
-        <a style="color: white; text-decoration: none;" href="/nest">Home</a>
-    </button></li>
-    <li><button type="button" class="btn btn-primary drop-btn">
-      <a style="color: white; text-decoration: none;" href="/date">All Birds No Bees</a>
-  </button></li>
+      <li>
+        <a style="color: white; text-decoration: none;" href="/nest">
+        <button type="button"  class="btn btn-primary drop-btn">
+          Home
+        </button>
+        </a>
+      </li>
+    <li>
+      <button type="button" class="btn btn-primary drop-btn">
+      <a style="color: white; text-decoration: none;" href="/date">
+        All Birds No Bees
+      </a>
+  </button>
+</li>
       <li><button type="button" class="btn btn-primary drop-btn" data-bs-toggle="modal" data-bs-target="#newPost">
         Create Post
     </button></li>

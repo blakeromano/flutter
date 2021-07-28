@@ -353,11 +353,17 @@ function messagesShow (req,res) {
     .populate("to")
     .populate("from")
     .then(messages => {
-        const otherProfileId = req.params.id
-        res.render("nest/messagesShow", {
-            title: "Messages",
-            messages: messages,
-            otherProfileId: otherProfileId,
+        Profile.findById(req.user.profile._id)
+        .then(usersProfile => {
+            Profile.findById(req.params.id)
+            .then(otherProfile => {
+                res.render("nest/messagesShow", {
+                    title: "Messages",
+                    messages: messages,
+                    otherProfile,
+                    usersProfile,
+                })
+            })
         })
     })
 }
