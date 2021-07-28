@@ -5,40 +5,62 @@
 <body>
 
 <main>
-    <div class="row d-flex container-fluid">
+    <div class="row d-flex container-fluid p-3">
             <div class="row">
-              <h3>All Posts</h3>
-              <% posts?.forEach(post => { %>
-                <div class="card">
-                <% if (post.image) { %> 
-                        <img src="" class="card-img-top" alt="...">
-                        <% } %> 
-                        <div class="card-body">
-                          <h5 class="card-title text-center"><%= post.author.name %></h5>
-                          <p class="card-text"><%= post.content %></p>
-                          <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
-                          <div class="card-footer">
-                            <form>
-                              <div class="form-floating mb-3">
-                                <textarea type="text" class="form-control" id="floatingInput" name="content" required><%= post.content %></textarea>
-                                <label for="content">Content:</label>
-                            </div>
-                            </form>
-                          </div>
-                          <form action="/nest/posts/<%= post._id %>/like" method="POST">
-                                <button type="submit" class="btn btn-lg btn-success">Like!</button>
-                          </form>
-                          <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") {%>
-                          <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
-                            <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
-                          </form>
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPost">
-                            Edit Post
-                        </button>  
+              <h3 class="text-center section-header">New Posts From All Birds</h3>
+              <% posts.forEach(post => { %>
+                  <div class="card">
+                  <% if (post.image) { %> 
+                          <img src="" class="card-img-top" alt="...">
                           <% } %> 
-                        </div>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-9">
+                                <p class="card-text"><%= post.content %></p>
+                                <a class="card-text my-3" href="/nest/<%= post.author._id %>"><%= post.author.name %></a>
+                                <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
+                              </div>
+                              <div class="col-3 d-flex justify-content-center">
+                                <form action="/nest/posts/<%= post._id %>/like" method="POST">
+                                      <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-success">👍</button>
+                                </form>
+                                <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                                <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
+                                  <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-danger">X</button>
+                                </form>
+                                <button style="height: 46.45px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPost">
+                                  Edit
+                              </button>  
+                                <% } %> 
+                              </div>
+                            </div>
+                            <div class="card-footer">
+                              <% post.comments.forEach(comment => { %>
+                                <div class="row">
+                                  <div class="col-11">
+                                    <h6><%= comment.author.name %></h6>
+                                    <p><%= comment.content %></p>
+                                  </div>
+                                  <div class="col-1">
+                                    <% if(comment.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                                      <form action="/nest/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                        <button type="submit" class="btn btn-lg btn-danger">X</button>
+                                      </form>
+                                    <% } %> 
+                                  </div>
+                                </div>
+                              <% }) %>
+                              <form method="POST" action="/nest/posts/<%= post._id %>/comment">
+                                <div class="form-floating mb-3">
+                                  <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
+                                  <label for="content">Comment:</label>
+                                  <button type="submit">Submit</button>
+                              </div>
+                              </form>
+                            </div>
+                          </div>
+                      </div>
                     </div>
-                  </div>
                   <div class="modal" id="editPost" tabindex="-1" aria-labelledby="editPost" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">

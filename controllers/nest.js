@@ -39,7 +39,10 @@ function index (req, res) {
         .then(flocks => {
             Profile.findById(req.user.profile._id)
             .then(profile => {
-                Post.find({author: {$in: [profile.following]}})  // will find posts of followers can't figure out how to show own posts and people I follow
+                Post.find({$or: [
+                    {author: {$in: [profile.following]}},
+                    {author: profile._id}
+                ]}) 
                 .sort({_id: -1})
                 .populate({
                     path: "comments.author",
@@ -127,6 +130,10 @@ function newPost (req, res) {
 }
 function indexPosts (req, res) {
     Post.find()
+    .populate({
+        path: "comments.author",
+        model: "Profile"
+    })
     .populate("author")
     .then(posts => {
         res.render("nest/allPosts", {
@@ -280,11 +287,9 @@ function followProfile (req, res) {
             Profile.findById(req.params.id)
             .then(profileFollowed => {
                 profileFollowed.followers.push(req.user.profile._id)
-                console.log(profileFollowed.followers)
                 profileFollowed.save()
                 .then(() => {
                     profileFollowing.following.push(req.params.id)
-                    console.log(profileFollowing.following)
                     profileFollowing.save()
                     .then(() => {
                         res.redirect(req.headers.referer)
