@@ -173,17 +173,17 @@ function likeProfile (req, res) {
     Profile.findById(req.user.profile._id)
     .then(profileLiked => {
         const profileLikedLike = []
-        profileLiked.liked.forEach(liker => {
+        profileLiked.likedUsers.forEach(liker => {
             profileLikedLike.push(liker.toString())
         })
         console.log(!profileLikedLike.includes(req.params.id))
         if(!profileLikedLike.includes(req.params.id)) {
             Profile.findById(req.params.id)
             .then(profileLiked => {
-                profileLiked.likers.push(req.user.profile._id)
+                profileLiked.likedUsers.push(req.user.profile._id)
                 profileLiked.save()
                 .then(() => {
-                    profileLiked.liked.push(req.params.id)
+                    profileLiked.likedUsers.push(req.params.id)
                     profileLiked.save()
                     .then(() => {
                         res.redirect(req.headers.referer)
@@ -193,10 +193,10 @@ function likeProfile (req, res) {
         } else {
             Profile.findById(req.params.id)
             .then(profileLiked => {
-                profileLiked.liked.remove(req.params.id)
+                profileLiked.likedUsers.remove(req.params.id)
                 profileLiked.save()
                 .then(() => {
-                    profileLiked.likers.remove(req.user.profile._id)
+                    profileLiked.likedUsers.remove(req.user.profile._id)
                     profileLiked.save()
                     .then(() => {
                         res.redirect(req.headers.referer)
