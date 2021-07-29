@@ -1,3 +1,10 @@
-row {
-    height: 10000px;
+.align-items-center {
+    height: 96vh;
+}
+.card {
+    padding: 10px;
+    border-radius: 10px;
+}
+body {
+    background-color: rgba(89, 174, 253, 0.37);
 }

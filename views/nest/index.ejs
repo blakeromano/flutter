@@ -6,7 +6,7 @@
 <main>
   <div class="d-flex row container-fluid">
     <div class="col-md-8 container-fluid">
-      <h3 class="text-center section-header">New Posts From People You Follow</h3>
+      <h3 class="text-center section-header">New Hoots From Birds You Follow</h3>
         <% posts.forEach(post => { %>
             <div class="card">
             <% if (post.image) { %> 
@@ -17,7 +17,7 @@
                         <div class="col-9">
                           <p class="card-text"><%= post.content %></p>
                           <a class="card-text my-3" href="/nest/<%= post.author._id %>"><%= post.author.name %></a>
-                          <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
+                          <p class="card-text">Liked by: <%= post.likes.length %> chirpers!</p>
                         </div>
                         <div class="col-3 d-flex justify-content-center">
                           <% if (!post.likes.includes(user.profile._id)) { %>
@@ -69,7 +69,7 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="editPost">Edit Post</h5>
+                      <h5 class="modal-title" id="editPost">Edit Hoot</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -85,7 +85,7 @@
                     </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Post!</button>
+                            <button type="submit" class="btn btn-primary">Hoot!</button>
                         </div>
                     </form>
                   </div>
@@ -106,14 +106,15 @@
                 <p class="card-text text-center"><%= flock.desc %></p>
               </div>
               <div class="d-flex justify-content-center">
-                <% if (!flock.profiles.includes(user.profile)) { %>
+                <% if (!flock.profiles.some(profile => profile._id.toString() === user.profile._id.toString())) { %>
                   <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
-                    <button type="submit" class="btn btn-success">Join/Leave Flock!</button>
+                    <button type="submit" class="btn btn-success">Join Flock!</button>
                   </form>
-                    <% } else { %>
-                      <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
-                        <button type="submit" class="btn btn-danger">Leave Flock</button>
-                      </form>
+                    <% } else if (flock.profiles[0]._id.toString() === user.profile._id.toString()) { %>
+                      <% } else { %>
+                        <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
+                          <button type="submit" class="btn btn-danger">Leave Flock</button>
+                        </form>
                     <% } %> 
               </div>
               </div>
@@ -121,7 +122,7 @@
             <% }) %> 
           </div>
           <div class="profiles-div">
-            <h3 class="text-center section-header profile-header">New Profiles</h3>
+            <h3 class="text-center section-header profile-header">Hatchlings</h3>
             <% profiles?.forEach(profile => { %>
               <div class="card width-100">
                 <div class="card-body">

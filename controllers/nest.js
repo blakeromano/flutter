@@ -48,7 +48,6 @@ function index (req, res) {
                 .populate("author")
                 // .populate("likes")
                 .then(posts => {
-                    console.log(flocks[0].profiles[0])
                     res.render("nest/index", {
                         title: "Nest Home",
                         flocks,

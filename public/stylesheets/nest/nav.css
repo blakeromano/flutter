@@ -8,8 +8,8 @@ body {
 }
 .navbar {
     margin-bottom: 25px;
-    border-bottom: 5px solid black;
-    background-color: rgb(255, 255, 121);
+    border-bottom: 5px solid rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
 }
 .dropdown-toggle {
     margin-left: 15px;

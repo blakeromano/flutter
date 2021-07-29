@@ -12,7 +12,7 @@
         <form class="submit-form" action="/nest/flocks/<%= flock._id %>?_method=PUT" method="POST">
           <div class="form-floating mb-3">
               <input type="text" class="form-control" id="floatingInput" name="name" value="<%= flock.name %>" >
-              <label for="name">Name:</label>
+              <label for="name">Flock Name:</label>
           </div>
           <div class="form-floating mb-3">
               <textarea type="text" class="form-control" id="floatingInput" name="desc" required><%= flock.desc %></textarea>
@@ -32,10 +32,16 @@
     <h2 class="text-center">Created by: <%= flock.profiles[0].name %></h2>
     <h2 class="text-center">Members: <%= flock.memberCount %></h2>
     <div class="d-flex justify-content-center">
-      <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
-        <% if (user) { %>
-          <button type="submit" class="btn btn-success">Join/Leave Flock!</button>
-          <% } %>
+      <% if (!flock.profiles.some(profile => profile._id.toString() === user.profile._id.toString())) { %>
+        <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
+          <button type="submit" class="btn btn-success">Join Da Flock!</button>
+        </form>
+          <% } else if (flock.profiles[0]._id.toString() === user.profile._id.toString()) { %>
+            <% } else { %>
+              <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
+                <button type="submit" class="btn btn-danger">Leave Flock</button>
+              </form>
+          <% } %> 
           <% if (user.profile._id.toString() === flock.profiles[0]._id.toString() || user.profile.name == "Blake Romano") { %>
             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editFlock">Edit Flock</button>
             <% } %>
@@ -44,7 +50,7 @@
 </div>
 <div class="d-flex container-fluid mx-3">
   <div class="col-8">
-    <h3 class="text-center section-header">Flock Members Posts</h3>
+    <h3 class="text-center section-header">Flock Members Hoots</h3>
     <% posts.forEach(post => { %>
         <div class="card">
         <% if (post.image) { %> 
@@ -55,7 +61,7 @@
                     <div class="col-9">
                       <p class="card-text"><%= post.content %></p>
                       <a class="card-text my-3" href="/nest/<%= post.author._id %>"><%= post.author.name %></a>
-                      <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
+                      <p class="card-text">Liked by: <%= post.likes.length %> chirpers!</p>
                     </div>
                     <div class="col-3 d-flex justify-content-center">
                       <% if (!post.likes.includes(user.profile._id)) { %>
@@ -107,7 +113,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="editPost">Edit Post</h5>
+                  <h5 class="modal-title" id="editPost">Edit Hoot</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -123,7 +129,7 @@
                 </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Post!</button>
+                        <button type="submit" class="btn btn-primary">Hoot!</button>
                     </div>
                 </form>
               </div>
@@ -132,7 +138,7 @@
     <% }) %> 
   </div>
   <div class="col-4">
-    <h3 class="text-center section-header profile-header">Members</h3>
+    <h3 class="text-center section-header profile-header">Bird Squad</h3>
     <% flock.profiles.forEach(profile => { %>
       <div class="card width-100">
         <div class="card-body">
@@ -147,9 +153,15 @@
             <% } %>
             <% if (user.profile._id.toString() !== profile._id.toString()) { %>
               <div class="d-flex justify-content-center">
-                <form action="/nest/<%= profile._id %>/follow" method="POST">
-                  <button type="submit" class="btn btn-lg btn-primary mw-75">Follow <%= profile.name %></button>
-                </form>
+                    <% if (!profile.followers.includes(user.profile._id)) { %>
+                      <form action="/nest/<%= profile._id %>/follow" method="POST">
+                        <button type="submit" class="btn btn-lg btn-primary mw-75">Follow <%= profile.name %></button>
+                      </form>
+                    <% } else { %>
+                    <form action="/nest/<%= profile._id %>/follow" method="POST">
+                      <button type="submit" class="btn btn-lg btn-danger mw-75">Unfollow <%= profile.name %></button>
+                    </form>
+                    <% } %> 
                 <% } %>
               </div>
               <div class="d-flex justify-content-center">

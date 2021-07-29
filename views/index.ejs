@@ -1,18 +1,18 @@
-<%- include('../partials/html-head') %>
-<%- include('../partials/nav') %>
+<%- include('./partials/html-head') %>
 <link rel="stylesheet" href="/stylesheets/index/login.css" />
 </head>
 <body>
   <main>
-    <div class="row container-fluid d-flex justify-content-center align-items-center">
+    <div class="container-fluid d-flex justify-content-center align-items-center">
       <div class="col-3">
         <div class="card">
-          <img src="" class="card-img-top" alt="...">
+          <img src="/images/index/dove.png" class="card-img-top" alt="Bird">
           <div class="card-body">
-            <h5 class="card-title text-center">Login!</h5>
-            <form action="/auth/google" method="get">
-              <button type="submit" class="btn btn-lg btn-primary">Login with Google</button>
-            </form>
+            <div class="d-flex justify-content-center container-fluid">
+              <form action="/auth/google" method="get">
+                <button type="submit" class="btn btn-lg btn-primary">Login with Google</button>
+              </form>
+            </div>
           </div>
       </div>
     </div>
