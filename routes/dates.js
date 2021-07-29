@@ -7,14 +7,14 @@ export {
 const router = Router()
 
 router.get("/", isLoggedIn, dateCtrl.index)
+router.get("/messageIndex", isLoggedIn, dateCtrl.messageIndex) 
 router.get("/:id", isLoggedIn, dateCtrl.showProfile)
+router.get("/messageNew/:id", isLoggedIn, dateCtrl.messageNew)
+router.get("/:id/schmedit", isLoggedIn, dateCtrl.editProfile)
+router.post("/messageShow/:id", isLoggedIn, dateCtrl.messageShow) 
 router.put("/:id", isLoggedIn, dateCtrl.updateProfile)
 router.delete("/:id", isLoggedIn, dateCtrl.delete)
-router.post("/posts", isLoggedIn, dateCtrl.newPost)
-router.get("/posts", isLoggedIn, dateCtrl.indexPosts)
-router.get("/posts/:id", isLoggedIn, dateCtrl.showPost)
-router.put("/posts/:id", isLoggedIn, dateCtrl.updatePost)
-router.delete("/posts/:id", isLoggedIn, dateCtrl.deletePost)
+
 
 
 function isLoggedIn(req, res, next) {

@@ -12,22 +12,24 @@
                 <p>Favorite Bird: <%= profile.favBird %></p>
                 <p>Birthday: <%= profile.birthday %></p>
                 <p>Biography: <%= profile.bio %></p>
-                <% if (user.profile._id.toString() === profile._id.toString()) { %>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#updateProfile">Update Profile</button>
-                    <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button>
-                    
-                    
-                    <% } %>
                 </div>
             </div>
                     <% if (user.profile._id.toString() === profile._id.toString()) { %>
                         <a 
                           class="btn btn-lg btn-primary"
                           role="button" 
-                          href="/date/<%= profile._id %>/profileUpdate"
+                          href="/date/<%= profile._id %>/schmedit"
                         >
                           Edit Profile
                         </a>
+                                            <!-- <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button> -->
+                                            <a 
+                                            class="btn btn-lg btn-primary"
+                                            role="button" 
+                                            href="/date"
+                                          >
+                                            Delete Profile
+                                          </a>
                       <% } %>
 <%- include('../partials/footer') %>
  

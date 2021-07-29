@@ -1,4 +1,4 @@
-</head>
+<!-- </head>
 <body>
 <nav class="navbar navbar-light bg-light">  
     <a class="navbar-brand" href="#">
@@ -18,4 +18,40 @@
   </div>
     </button>
 </nav>
+  -->
+
+</head>
+<body>
+<nav class="navbar navbar-light bg-light d-flex justify-content-start">  
+<div class="dropdown">
+    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      <img src="/images/auth/google/birdcon.png" width="50" height="50" alt="Bird">
+    </button>   
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><button type="button" class="btn btn-primary drop-btn">
+      <a style="color: white; text-decoration: none;" href="/nest">Return to the Nest</a>
+  </button></li>      
+      <li><button type="button"  class="btn btn-primary drop-btn">
+        <a style="color: white; text-decoration: none;" href="/date">Home</a>
+    </button></li>
+      <li><button type="button" class="btn btn-primary drop-btn">
+        <a style="color: white; text-decoration: none;" href="/date/<%= user.profile._id %>">My Profile</a>
+    </button></li>
+    <li><button type="button" class="btn btn-primary drop-btn">
+      <a style="color: white; text-decoration: none;" href="/date/messageIndex">Messages</a>
+  </button></li>
+  <li><button type="button" class="btn btn-primary drop-btn">
+    <a style="color: white; text-decoration: none;" href="/date/allProfiles">All Users</a>
+</button></li>
+<li><button type="button" class="btn btn-primary drop-btn">
+  <a style="color: white; text-decoration: none;" href="/auth/logout">Logout</a>
+</button></li>
+    </ul>
+  </div>
+    </button>
+</nav>
+      </form>
+    </div>
+  </div>
+</div>
  
