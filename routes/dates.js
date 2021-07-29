@@ -16,7 +16,7 @@ router.post("/messageShow/:id", isLoggedIn, dateCtrl.messageShow)
 router.get("/messageShow/:id", isLoggedIn, dateCtrl.messageShow)
 router.post("/:id/likeProfile", isLoggedIn, dateCtrl.likeProfile)
 router.put("/:id", isLoggedIn, dateCtrl.updateProfile)
-
+router.delete("/:id", isLoggedIn, dateCtrl.deleteProfile)
 
 
 function isLoggedIn(req, res, next) {

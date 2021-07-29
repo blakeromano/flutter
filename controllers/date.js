@@ -14,7 +14,8 @@ export {
     messageNew,
     messageShow,
     likeProfile,
-    questions
+    questions,
+    deleteProfile
     
 }
 function questions(req, res) {
@@ -203,5 +204,16 @@ function likeProfile (req, res) {
                 })
             })
         }
+    })
+}
+function deleteProfile (req, res) {
+    Profile.findByIdAndDelete(req.params.id)
+    .then((user) => {
+        console.log('this is the user profile ', user)
+        User.findOneAndDelete({ profile: user._id })
+        .then((profile) => {
+            console.log('this is the profile ', profile)
+            res.redirect('/date')
+        })
     })
 }

@@ -46,7 +46,10 @@
                           href="/date/<%= profile._id %>/questions"
                         >
                           Ice breakers
-                        </a>
+                        </a> 
+                        <form action="/date/<%= profile.id %>?_method=DELETE" method="POST">
+                          <button type="submit">Delete</button></form>
+                        
                       <% } %>
                       <% if (user.profile._id.toString() !== profile._id.toString()) { %>
                         <div class="d-flex justify-content-center">
