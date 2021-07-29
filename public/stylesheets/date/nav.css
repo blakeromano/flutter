@@ -1,0 +1,20 @@
+.drop-btn {
+    width: 160px;
+}
+body {
+    font-family: 'Quicksand', sans-serif;
+    color: black;
+}
+.navbar {
+    background-color: #9585FF;
+    margin-bottom: 25px;
+    border-bottom: 3px solid black;
+}
+.dropdown-toggle {
+    margin-left: 15px;
+    background-color: #DD7549;
+}
+a {
+    text-decoration: none;
+    color: black;
+}

@@ -1,0 +1,18 @@
+<%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/index/choose.css" />
+<%- include("../partials/nav") %> 
+<h1>questions</h1>
+<main>
+<form class="submit-form" method="POST" 
+action="/date/<%= profile._id %>?_method=PUT">
+
+  <div class="form-floating row mb-3">
+
+  <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" name="desc" value="<%= profile.desc %>" required>
+      <label for="desc">Do you like hot pocket?:</label>
+  </div>
+      <button type="submit" class="btn btn-primary">Update Profile!</button>
+</form>
+</main>
+<%- include('../partials/footer') %>

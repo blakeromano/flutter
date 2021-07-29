@@ -1,15 +1,33 @@
 <%- include('../partials/html-head') %>
 <link rel="stylesheet" href="/stylesheets/index/choose.css" />
+<link rel="stylesheet" href="/stylesheets/date/nav.css">
 <%- include("../partials/nav") %> 
-            <div class="row">
-                <div>
+                          <div class="d-flex row container-fluid">
+                            <div class="col-8 container-fluid"></div>
+                                <h1 class="text-center"><%= profile.name %>'s Ice Breakers</h1>
+                                    <div class="card">
+                                            <div class="card-body">
+                                              <div class="row">
+
+                                                  <a class="card-text my-3" href=""></a>
+                                                  <p class="card-text">Do you like hot pocket?:
+                                                    <br>
+                                                     <%= profile.desc %>
+                                                </div>
+                                            </div>
+                                            </div>
+
+                <div class="card-footer">
+                  <div class="row">
+
+                      <div class="col-4 container-fluid">
                 <h1>Profile Information</h1>
                 <img src="<%= profile.avatar %> " alt="<%= profile.name %>'s avatar">
                 <h2><%= profile.name %></h2>
                 <p>Age: <%= profile.age %></p>
                 <p>Gender: <%= profile.gender %></p>
                 <p>Location: <%= profile.country %>, <%= profile.state %>, <%= profile.city %></p>
-                <p>Favorite Bird: <%= profile.favBird %></p>
+                <p>Hobbies: <%= profile.favBird %></p>
                 <p>Birthday: <%= profile.birthday %></p>
                 <p>Biography: <%= profile.bio %></p>
                 </div>
@@ -22,14 +40,28 @@
                         >
                           Edit Profile
                         </a>
-                                            <!-- <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button> -->
-                                            <a 
-                                            class="btn btn-lg btn-primary"
-                                            role="button" 
-                                            href="/date"
-                                          >
-                                            Delete Profile
-                                          </a>
+                        <a 
+                          class="btn btn-lg btn-primary"
+                          role="button" 
+                          href="/date/<%= profile._id %>/questions"
+                        >
+                          Ice breakers
+                        </a>
                       <% } %>
+                      <% if (user.profile._id.toString() !== profile._id.toString()) { %>
+                        <div class="d-flex justify-content-center">
+                          <form action="/date/<%= profile._id %>/likedProfile" method="POST">
+                            <button type="submit" class="btn btn-lg btn-primary mw-75"> Bird Pun <%= profile.name %></button>
+                          </form>
+                          <% } %>
+
+
+
+
+
+
+                   
+                          
+                          
 <%- include('../partials/footer') %>
  
