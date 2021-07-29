@@ -6,13 +6,13 @@
 <nav class="navbar d-flex justify-content-start">  
 <div class="dropdown">
     <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="/images/auth/google/birdcon.png" width="50" height="50" alt="Bird">
+      <img src="/images/index/bird.png" width="50" height="50" alt="Bird">
     </button>   
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
       <li>
         <a style="color: white; text-decoration: none;" href="/nest">
         <button type="button"  class="btn btn-primary drop-btn">
-          Home
+          Nest Home
         </button>
         </a>
       </li>
@@ -24,7 +24,7 @@
   </button>
 </li>
       <li><button type="button" class="btn btn-primary drop-btn" data-bs-toggle="modal" data-bs-target="#newPost">
-        Create Post
+        What's Hooting
     </button></li>
       <li><button type="button" class="btn btn-primary drop-btn" data-bs-toggle="modal" data-bs-target="#newFlock">
         Create Flock
@@ -33,13 +33,13 @@
         <a style="color: white; text-decoration: none;" href="/nest/<%= user.profile._id %>">My Profile</a>
     </button></li>
     <li><button type="button" class="btn btn-primary drop-btn">
-      <a style="color: white; text-decoration: none;" href="/nest/messages">Messages</a>
+      <a style="color: white; text-decoration: none;" href="/nest/messages">Chirp Chat</a>
   </button></li>
   <li><button type="button" class="btn btn-primary drop-btn">
-    <a style="color: white; text-decoration: none;" href="/nest/allProfiles">All Users</a>
+    <a style="color: white; text-decoration: none;" href="/nest/allProfiles">All Birds</a>
 </button></li>
 <li><button type="button" class="btn btn-primary drop-btn">
-  <a style="color: white; text-decoration: none;" href="/nest/allPosts">All Posts</a>
+  <a style="color: white; text-decoration: none;" href="/nest/allPosts">All Hoots</a>
 </button></li>
 <li><button type="button" class="btn btn-primary drop-btn">
   <a style="color: white; text-decoration: none;" href="/auth/logout">Logout</a>
@@ -52,7 +52,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newPost">New Post</h5>
+        <h5 class="modal-title" id="newPost">New Hoot</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -68,7 +68,7 @@
       </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Post!</button>
+              <button type="submit" class="btn btn-primary">Hoot it!</button>
           </div>
       </form>
     </div>

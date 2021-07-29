@@ -1,7 +1,3 @@
 .timestamp {
     max-width: 20%;
-    display: none;
-}
-.message:hover .timestamp {
-    display: flex!important
 }

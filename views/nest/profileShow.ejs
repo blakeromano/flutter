@@ -70,7 +70,7 @@
       </div>
     <div class="d-flex row container-fluid">
         <div class="col-md-8 container-fluid">
-            <h1 class="text-center"><%= profile.name %>'s Posts</h1>
+            <h1 class="text-center"><%= profile.name %>'s Hoots</h1>
             <% profile.posts.forEach(post => { %>
                 <div class="card">
                 <% if (post.image) { %> 
@@ -134,7 +134,7 @@
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="editPost">Edit Post</h5>
+                          <h5 class="modal-title" id="editPost">Edit Hoot</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -150,7 +150,7 @@
                         </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Post!</button>
+                                <button type="submit" class="btn btn-primary">Hoot!</button>
                             </div>
                         </form>
                       </div>
@@ -160,7 +160,7 @@
         <div class="col-md-4 container-fluid">
             <div class="p-3"style="border: rgba(128, 128, 128, 0.15) solid 2px">
                 <div class="text-center">
-                    <h1>Profile Information</h1>
+                    <h1>Bird's Information</h1>
                     <img height="150px" width="150px" src="<%= profile.avatar %> " alt="<%= profile.name %>'s avatar">
                     <h2><%= profile.name %></h2>
                     <% if (profile.moderator === true) { %>
@@ -200,14 +200,15 @@
                                 <h5 class="card-title text-center">Created by <%= flock.profiles[0].name %></h5>
                                 <p class="card-text text-center"><%= flock.desc %></p>
                                 <div class="d-flex justify-content-center">
-                                  <% if (!flock.profiles.includes(user.profile)) { %>
+                                  <% if (!flock.profiles.some(profile => profile._id.toString() === user.profile._id.toString())) { %>
                                     <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
-                                      <button type="submit" class="btn btn-success">Join/Leave Flock!</button>
+                                      <button type="submit" class="btn btn-success">Join Flock!</button>
                                     </form>
-                                      <% } else { %>
-                                        <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
-                                          <button type="submit" class="btn btn-danger">Leave Flock</button>
-                                        </form>
+                                      <% } else if (flock.profiles[0]._id.toString() === user.profile._id.toString()) { %>
+                                        <% } else { %>
+                                          <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
+                                            <button type="submit" class="btn btn-danger">Leave Flock</button>
+                                          </form>
                                       <% } %> 
                                 </div>
                             </div>
