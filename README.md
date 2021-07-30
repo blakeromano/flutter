@@ -13,7 +13,9 @@ The user will arrive on the login page on arrival where they will be prompted to
 
 On the Nest it functions like your typical social media website. You can create hoots also known as posts, follow people, directly message people also known as chirp, and make groups referred to as flocks. 
 
-On All Birds No Bees it ....
+On All Birds No Bees the user will be able to visit other users profiles and Rub Beaks or Break their Hearts. They will also be able to answer a question(s) to get to know the other users better and vice versa. We've also graciously provided a link to our wonderful sponsor who doesn't happen to be Hot Pocket. I promise. The user can also delete their profile but I do not recommend this.
+
+If anyone ask, no the sponsor part was a joke. I wish Birds aren't real would sponsor anything I do.
 
 ## Tech Framework
 ### This app uses:
@@ -68,6 +70,7 @@ At this point in time the developers are open to outside collaborators on Flutte
   * [Mongoose Docs](https://mongoosejs.com/docs/guides.html)
   * [React Router Docs](https://reactrouter.com/core/guides/philosophy)
   * [Stack Overflow](https://stackoverflow.com/)
+  * [Birds aren't Real](https://birdsarentreal.com/)
 
 ## About the Developers
 
@@ -80,7 +83,7 @@ Blake is a full stack web developer from the Boston, MA area, with a passion for
 
 ### Avis Nesbitt Jr
 
-Avis ...
+Avis is an up and coming legend in the bird community who is based out of Clinton, MD. Might not even really like birds, we've asked but he refuses to answer. After a long year of stagnating he decided to get in to Software Enginering because he loves a good challenge.
 
 ## Screenshots
 
