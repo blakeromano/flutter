@@ -206,5 +206,43 @@ function like(req, res) {
 }
 
 function filter (req, res) {
-    console.log()
+    let filteredProfiles = []
+    // req.body.minAgeInt = minAgeInt.parseInt()
+    // req.body.maxAgeInt = maxAgeInt.parseInt()
+    for (let key in req.body) {
+        if (req.body[key] === '') delete req.body[key]
+    }
+    console.log(req.body)
+    Profile.find({
+        age: {$gt: req.body.minAgeInt, $lt: req.body.maxAgeInt},
+        // country: req.body.country,
+        // state: req.body.state,
+        // city: req.body.city,
+        // gender: req.body.gender
+    })
+    .then(profiles => {
+        // if (req.body.minAgeInt) {
+        //     filteredProfiles = profiles.filter(profile => profile.age > req.body.minAgeInt)
+        // }
+        // if (req.body.maxAgeInt) {
+        //     filteredProfiles = profiles.filter(profile => profile.age < req.body.maxAgeInt)
+        // }
+        // if (req.body.country) {
+        //     filteredProfiles = profiles.filter(profile => profile.country === req.body.country)
+        // }
+        // if (req.body.state) {
+        //     filteredProfiles = profiles.filter(profile => profile.state === req.body.state)
+        // }
+        // if (req.body.city) {
+        //     filteredProfiles = profiles.filter(profile => profile.city === req.body.city)
+        // }
+        // if (req.body.gender) {
+        //     filteredProfiles = profiles.filter(profile => profile.gender === req.body.gender)
+        // }
+        res.render("dates/index", {
+            title: "Dates Home",
+            profiles: profiles,
+        })
+    })
 }
+    
