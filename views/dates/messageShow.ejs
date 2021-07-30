@@ -19,7 +19,6 @@
 <% messages.forEach(message => { %>
     <% if (message.from._id.toString() === otherProfile._id.toString()) { %>
         <div class="d-flex justify-content-start container-fluid ">
-            <p class="timestamp"><%= message.createdAt %></p>
             <h4 class="p-2 message"style="border: rgba(128, 128, 128, 0.3) solid 1px; max-width: 50%; border-radius: 15px;"><%= message.content %></h4> 
         </div>
     <% } else {%>

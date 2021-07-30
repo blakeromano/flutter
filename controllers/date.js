@@ -140,7 +140,7 @@ function messageShow (req,res) {
     .populate("to")
     .populate("from")
     .then(messages => {
-        console.log("This is messages ", messages)
+        // console.log("This is messages ", messages)
         Profile.findById(req.user.profile._id)
         .then(usersProfile => {
             Profile.findById(req.params.id)
@@ -173,8 +173,8 @@ function likeProfile (req, res) {
     Profile.findById(req.user.profile._id)
     .then(profileLiked => {
         const profileLikedLike = []
-        profileLiked.likedUsers.forEach(liker => {
-            profileLikedLike.push(liker.toString())
+        profileLiked.likedBy.forEach(likedBy => {
+            profileLikedLike.push(likedBy.toString())
         })
         console.log(!profileLikedLike.includes(req.params.id))
         if(!profileLikedLike.includes(req.params.id)) {
@@ -183,7 +183,7 @@ function likeProfile (req, res) {
                 profileLiked.likedUsers.push(req.user.profile._id)
                 profileLiked.save()
                 .then(() => {
-                    profileLiked.likedUsers.push(req.params.id)
+                    profileLiked.likedBy.push(req.params.id)
                     profileLiked.save()
                     .then(() => {
                         res.redirect(req.headers.referer)
@@ -193,7 +193,7 @@ function likeProfile (req, res) {
         } else {
             Profile.findById(req.params.id)
             .then(profileLiked => {
-                profileLiked.likedUsers.remove(req.params.id)
+                profileLiked.likedBy.remove(req.params.id)
                 profileLiked.save()
                 .then(() => {
                     profileLiked.likedUsers.remove(req.user.profile._id)

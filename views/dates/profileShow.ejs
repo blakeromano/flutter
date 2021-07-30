@@ -4,7 +4,7 @@
 <%- include("../partials/nav") %> 
                           <div class="d-flex row container-fluid">
                             <div class="col-8 container-fluid"></div>
-                                <h1 class="text-center"><%= profile.name %>'s Ice Breakers</h1>
+                                <h1 class="text-center"><%= profile.name %>'s Egg Crackers</h1>
                                     <div class="card">
                                             <div class="card-body">
                                               <div class="row">
@@ -45,19 +45,29 @@
                           role="button" 
                           href="/date/<%= profile._id %>/questions"
                         >
-                          Ice breakers
+                          Egg Crackers
                         </a> 
                         <form action="/date/<%= profile.id %>?_method=DELETE" method="POST">
                           <button type="submit">Delete</button></form>
                         
                       <% } %>
-                      <% if (user.profile._id.toString() !== profile._id.toString()) { %>
-                        <div class="d-flex justify-content-center">
-                          <form action="/date/<%= profile._id %>/likedProfile" method="POST">
-                            <button type="submit" class="btn btn-lg btn-primary mw-75"> Bird Pun <%= profile.name %></button>
-                          </form>
-                          <% } %>
 
+
+                                                    <% if (user.profile._id.toString() !== profile._id.toString()) { %>
+                                                      <% if (!profile.likedUsers.includes(user.profile._id)) { %>
+                                                        <form action="/date/<%= profile._id %>/likedProfile" method="POST">
+                                                          <button type="submit" class="btn btn-lg btn-primary mw-75">Rub Beaks with <%= profile.name %></button>
+                                                        </form>
+                                                      <% } else { %>
+                                                      <form action="/date/<%= profile._id %>/likedProfile" method="POST">
+                                                        <button type="submit" class="btn btn-lg btn-danger mw-75">Break <%= profile.name %>'s Heart</button>
+                                                      </form>
+                                                      <% } %> 
+                                                    <% } %>
+                                                </div>
+                          
+                                                
+                          <%- include('../partials/footer') %>
 
 
 

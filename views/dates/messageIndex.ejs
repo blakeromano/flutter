@@ -44,14 +44,14 @@
         </div>
     </div>
     <div class="row">
-        <% profile.dateMessaged?.forEach(person => { %>
-            <a href="/dates/messageShow/<%= person._id %>">
+        <% profile.dateMessaged?.forEach(profile => { %>
+            <a href="/dates/messageShow/<%= profile._id %>">
                 <div class="card">
                     <div class="card-body">
-                      <% if (person.avatar) { %> 
-                            <img style="height: 100px; width: 100px;" src="<%= person.avatar %>" class="card-img rounded-circle" alt="<%= person.name %>'s Avatar">
+                      <% if (profile.avatar) { %> 
+                            <img style="height: 100px; width: 100px;" src="<%= profile.avatar %>" class="card-img rounded-circle" alt="<%= profile.name %>'s Avatar">
                       <% } %> 
-                            <h5 class="card-title text-center"><%= person.name %></h5>
+                            <h5 class="card-title text-center"><%= profile.name %></h5>
                     </div>
                 </div>
             </a>
