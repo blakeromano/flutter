@@ -80,6 +80,10 @@ const profileSchema = new mongoose.Schema({
   nestMessaged: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile"
+  }],
+  dateMessaged: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile"
   }]
 }, {
   timestamps: true

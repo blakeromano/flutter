@@ -9,7 +9,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="submit-form" action="/date/messageShow/<%= user.profile._id %>" method="POST">
+          <form class="submit-form" action="/date/messages/<%= user.profile._id %>" method="POST">
             <div class="form-floating row mb-3">
                 <div class="col-3">
                     <label for="to">Send to:</label>
@@ -45,7 +45,7 @@
     </div>
     <div class="row">
         <% profile.dateMessaged?.forEach(person => { %>
-            <a href="/dates/messageShow/<%= person._id %>">
+            <a href="/date/messages/<%= person._id %>">
                 <div class="card">
                     <div class="card-body">
                       <% if (person.avatar) { %> 

@@ -14,13 +14,14 @@ export {
     messageIndex,
     messageNew,
     messageShow,
-    
+    like,
+    filter,
 }
- 
+
 function editProfile(req, res) {
     Profile.findById(req.params.id)
     .then(profile => {
-      res.render('dates/schmedit', {
+      res.render('dates/edit', {
         title: `Editing ${profile.name}'s profile`,
         profile
       })
@@ -34,35 +35,25 @@ function editProfile(req, res) {
 function index(req, res) {
     Profile.find({})
     .sort({_id: -1})
-    .limit(5)
     .then(profiles => {
-        Flock.find({})
-        .sort({_id: -1})
-        .limit(3)
-        .populate("profiles")
-        .then(flocks => {
-            Post.find({})
-            .sort({_id: -1})
-            .limit(10)
-            .populate("author")
-            .populate("likes")
-            .then(posts => {
+        Profile.findById(req.user.profile._id)
+        .then(profile => {
+            if(profile.interestedIn === "" || profile.country === "" || profile.state === "" || profile.city === "") {
+                res.redirect(`/date/${profile._id}/schmedit`)
+            } else {
                 res.render("dates/index", {
                     title: "Dates Home",
-                    flocks,
-                    posts,
                     profiles,
+                    profile,
                 })
-            })
+            }
         })
-    })
-    .catch(err => {
-        console.log(err)
-        res.redirect("/choose")
     })
 }
 function showProfile(req, res) {
     Profile.findById(req.params.id)
+    .populate("likedUsers")
+    .populate("likedBy")
     .then(profile => {
         res.render("dates/profileShow", {
             title: `${profile.name}'s Profile`,
@@ -83,21 +74,21 @@ function updateProfile(req, res) {
 }
 
 function deleteProfile (req, res) {
-     User.findByIdAndDelete(req.user._id)
-    .then(user => {
-        Profile.findByIdAndDelete(req.user.profile._id)
-        .then(profile => {
-            Post.deleteMany({author: profile._id})
-            .then(() => {
+    //  User.findByIdAndDelete(req.user._id)
+    // .then(user => {
+    //     Profile.findByIdAndDelete(req.user.profile._id)
+    //     .then(profile => {
+    //         Post.deleteMany({author: profile._id})
+    //         .then(() => {
 
-            })
-            res.redirect("/")
-        })
-    })
-    .catch(err => {
-        console.log(err)
-        res.redirect("/choose")
-    })
+    //         })
+    //         res.redirect("/")
+    //     })
+    // })
+    // .catch(err => {
+    //     console.log(err)
+    //     res.redirect("/choose")
+    // })
 }
 
 function messageNew (req, res) {
@@ -137,6 +128,7 @@ function messageNew (req, res) {
 }
 
 function messageShow (req,res) {
+    console.log('test')
     DateMessage.find({$or: [
         {$and: [{to: req.user.profile._id}, {from: req.params.id}]},
         {$and: [{to: req.params.id}, {from: req.user.profile._id}]}
@@ -144,6 +136,7 @@ function messageShow (req,res) {
     .populate("to")
     .populate("from")
     .then(messages => {
+        console.log(messages)
         Profile.findById(req.user.profile._id)
         .then(usersProfile => {
             Profile.findById(req.params.id)
@@ -171,4 +164,47 @@ function messageIndex (req, res) {
             })
         })
     })
+}
+
+function like(req, res) {
+    Profile.findById(req.user.profile._id)
+    .then(userProfile => {
+        const userProfileLiked = []
+        userProfile.likedUsers.forEach(liked => {
+            userProfileLiked.push(liked.toString())
+        })
+        if(!userProfileLiked.includes(req.params.id)) {
+            console.log("not liking")
+            Profile.findById(req.params.id)
+            .then(profileLiked => {
+                profileLiked.likedBy.push(req.user.profile._id)
+                profileLiked.save()
+                .then(() => {
+                    userProfile.likedUsers.push(req.params.id)
+                    userProfile.save()
+                    .then(() => {
+                        res.redirect(req.headers.referer)
+                    })
+                })
+            })
+        } else {
+            console.log('liking')
+            Profile.findById(req.params.id)
+            .then(profileLiked => {
+                profileLiked.likedBy.remove(req.user.profile._id)
+                profileLiked.save()
+                .then(() => {
+                    userProfile.likedUsers.remove(req.params.id)
+                    userProfile.save()
+                    .then(() => {
+                        res.redirect(req.headers.referer)
+                    })
+                })
+            })
+        }
+    })
+}
+
+function filter (req, res) {
+    console.log()
 }

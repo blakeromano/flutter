@@ -20,7 +20,7 @@ action="/date/<%= profile._id %>?_method=PUT">
         </div>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="name" required>
+        <input type="text" class="form-control" id="floatingInput" name="name" value="<%= profile.name %>" required>
         <label for="name">Name:</label>
     </div>
     <div class="form-floating mb-3">
@@ -33,24 +33,41 @@ action="/date/<%= profile._id %>?_method=PUT">
     </div>
     
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="country">
+        <input type="text" class="form-control" id="floatingInput" name="country" value="<%= profile.country %>" required>
         <label for="country">Country:</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="state">
+        <input type="text" value="<%= profile.state %>" class="form-control" id="floatingInput" name="state" required>
         <label for="name">State:</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="city/town">
+        <input type="text" class="form-control" required value="<%= profile.city %>" id="floatingInput" name="city">
         <label for="city">City/Town:</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" name="birthday">
+        <input required type="text" class="form-control" value="<%= profile.birthday %>" id="floatingInput" name="birthday">
         <label for="birtday">Birthday:</label>
     </div>
     <div class="form-floating mb-3">
-        <textarea type="text" class="form-control" id="floatingInput" name="bio"></textarea>
-        <label for="bio">Bio:</label>
+        <input required type="number" class="form-control" id="floatingInput" value="<%= profile.minAgeInt %>" name="minAgeInt" min="18" max="99">
+        <label for="minAgeInt">Minimum Interested in Age:</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input required type="number" class="form-control" id="floatingInput" name="maxAgeInt" min="18" max="99" value="<%= profile.maxAgeInt %>">
+        <label for="maxAgeInt">Maximum Age Interested:</label>
+    </div>
+    <div class="form-floating mb-3">
+        <div class="col-2">
+            <label for="interestedIn">Sexual Preference:</label>
+        </div>
+        <div class="col-10">
+            <select name="interestedIn" required>
+                <option value="">Select One</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
     </div>
         <button type="submit" class="btn btn-primary">Update Profile!</button>
 </form>

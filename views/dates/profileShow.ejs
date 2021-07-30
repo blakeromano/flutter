@@ -1,35 +1,97 @@
 <%- include('../partials/html-head') %>
-<link rel="stylesheet" href="/stylesheets/index/choose.css" />
+<link rel="stylesheet" href="/stylesheets/nest/index.css" />
 <%- include("../partials/nav") %> 
-            <div class="row">
-                <div>
-                <h1>Profile Information</h1>
-                <img src="<%= profile.avatar %> " alt="<%= profile.name %>'s avatar">
-                <h2><%= profile.name %></h2>
-                <p>Age: <%= profile.age %></p>
-                <p>Gender: <%= profile.gender %></p>
-                <p>Location: <%= profile.country %>, <%= profile.state %>, <%= profile.city %></p>
-                <p>Favorite Bird: <%= profile.favBird %></p>
-                <p>Birthday: <%= profile.birthday %></p>
-                <p>Biography: <%= profile.bio %></p>
+<div class="modal fade" id="likedUsers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Liked Users</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% profile.likedUsers?.forEach(user => { %>
+          <a href="/date/<%= user._id %>"><%= user.name %>, </a>
+        <% }) %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="likedBy" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Users Who Liked You</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% profile.likedBy?.forEach(user => { %>
+          <a href="/date/<%= user._id %>"><%= user.name %>, </a>
+        <% }) %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+            <div class="d-flex container-fluid justify-content-center">
+                <div class="card">
+                <h1 class="text-center p-3">Profile Information</h1>
+                <img class="p-3" src="<%= profile.avatar %> " alt="<%= profile.name %>'s avatar">
+                <h2 class="text-center p-3"><%= profile.name %></h2>
+                <div class="card-body">
+                  <div class="d-flex container-fluid justify-content-center">
+                    <% if (!profile.likedBy.some(persons => persons._id.toString() === user.profile._id.toString())) { %>
+                      <% if (user.profile._id.toString() !== profile._id.toString()) { %>
+                        <form action="/date/<%= profile._id %>/like" method="Post">
+                          <button type="submit" class="btn btn-lg btn-primary">Like</button>
+                        </form>
+                      <% } %>
+                      <% } else { %>
+                        <form action="/date/<%= profile._id %>/like" method="Post">
+                          <button type="submit" class="btn btn-lg btn-danger">Unlike</button>
+                        </form>
+                          <% } %> 
+                  </div>
+                  
+                  <p>Age: <%= profile.age %></p>
+                  <p>Gender: <%= profile.gender %></p>
+                  <p>Sexual Preference: <%= profile.interestedIn %></p>
+                  <p>Minimum Age Interest: <%= profile.minAgeInt %></p>
+                  <p>Maxmium Age Interest: <%= profile.maxAgeInt %></p>
+                  <p>Location: <%= profile.country %>, <%= profile.state %>, <%= profile.city %></p>
+                  <p>Favorite Bird: <%= profile.favBird %></p>
+                  <p>Birthday: <%= profile.birthday %></p>
+                  <p>Biography: <%= profile.bio %></p>
+                </div>
                 </div>
             </div>
-                    <% if (user.profile._id.toString() === profile._id.toString()) { %>
-                        <a 
-                          class="btn btn-lg btn-primary"
-                          role="button" 
-                          href="/date/<%= profile._id %>/schmedit"
-                        >
-                          Edit Profile
-                        </a>
-                                            <!-- <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button> -->
-                                            <a 
-                                            class="btn btn-lg btn-primary"
-                                            role="button" 
-                                            href="/date"
-                                          >
-                                            Delete Profile
-                                          </a>
-                      <% } %>
+            <div class="d-flex justify-content-center">
+              <% if (user.profile._id.toString() === profile._id.toString()) { %>
+                <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#likedUsers" data-bs-whatever="@mdo">Liked Users</button>
+
+                <a 
+                    class="btn btn-lg btn-primary"
+                    role="button" 
+                    href="/date/<%= profile._id %>/edit"
+                  >
+                    Edit Profile
+                  </a>
+                  <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#likedBy" data-bs-whatever="@mdo">Users Who Liked You</button>
+                  
+                                      <!-- <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button> -->
+                                      <!-- <a 
+                                      class="btn btn-lg btn-primary"
+                                      role="button" 
+                                      href="/date"
+                                    >
+                                      Delete Profile
+                                    </a> -->
+                <% } %>
+
+            </div>
 <%- include('../partials/footer') %>
  

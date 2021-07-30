@@ -9,11 +9,13 @@ const router = Router()
 router.get("/", isLoggedIn, dateCtrl.index)
 router.get("/messageIndex", isLoggedIn, dateCtrl.messageIndex) 
 router.get("/:id", isLoggedIn, dateCtrl.showProfile)
-router.get("/messageNew/:id", isLoggedIn, dateCtrl.messageNew)
-router.get("/:id/schmedit", isLoggedIn, dateCtrl.editProfile)
-router.post("/messageShow/:id", isLoggedIn, dateCtrl.messageShow) 
+router.get("/messages/:id", isLoggedIn, dateCtrl.messageShow)
+router.get("/:id/edit", isLoggedIn, dateCtrl.editProfile)
+router.post("/filter", isLoggedIn, dateCtrl.filter)
+router.post("/messages/:id", isLoggedIn, dateCtrl.messageNew) 
 router.put("/:id", isLoggedIn, dateCtrl.updateProfile)
 router.delete("/:id", isLoggedIn, dateCtrl.delete)
+router.post("/:id/like", isLoggedIn, dateCtrl.like)
 
 
 

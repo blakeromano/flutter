@@ -1,38 +1,18 @@
-<!-- </head>
-<body>
-<nav class="navbar navbar-light bg-light">  
-    <a class="navbar-brand" href="#">
-    </a>
-    </div>
-  </div>
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      
-      <img src="/images/auth/google/birdcon.png" width="30" height="30" alt="">
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#">I</a></li>
-      <li><a class="dropdown-item" href="#">Might be</a></li>
-      <li><a class="dropdown-item" href="#">Stupid</a></li>
-    </ul>
-  </div>
-    </button>
-</nav>
-  -->
+<link rel="stylesheet" href="/stylesheets/nest/nav.css">
 
 </head>
 <body>
 <nav class="navbar navbar-light bg-light d-flex justify-content-start">  
 <div class="dropdown">
     <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="/images/auth/google/birdcon.png" width="50" height="50" alt="Bird">
+      <img src="/images/index/bird.png" width="50" height="50" alt="Bird">
     </button>   
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
     <li><button type="button" class="btn btn-primary drop-btn">
       <a style="color: white; text-decoration: none;" href="/nest">Return to the Nest</a>
   </button></li>      
       <li><button type="button"  class="btn btn-primary drop-btn">
-        <a style="color: white; text-decoration: none;" href="/date">Home</a>
+        <a style="color: white; text-decoration: none;" href="/date">Date Home</a>
     </button></li>
       <li><button type="button" class="btn btn-primary drop-btn">
         <a style="color: white; text-decoration: none;" href="/date/<%= user.profile._id %>">My Profile</a>
@@ -40,9 +20,6 @@
     <li><button type="button" class="btn btn-primary drop-btn">
       <a style="color: white; text-decoration: none;" href="/date/messageIndex">Messages</a>
   </button></li>
-  <li><button type="button" class="btn btn-primary drop-btn">
-    <a style="color: white; text-decoration: none;" href="/date/allProfiles">All Users</a>
-</button></li>
 <li><button type="button" class="btn btn-primary drop-btn">
   <a style="color: white; text-decoration: none;" href="/auth/logout">Logout</a>
 </button></li>
