@@ -1,5 +1,6 @@
   <%- include('../partials/html-head') %>
   <link rel="stylesheet" href="/stylesheets/index/choose.css" />
+  <link rel="stylesheet" href="/stylesheets/date/nav.css">
   <%- include("../partials/nav") %> 
 <h1>Update User</h1>
 <main>
@@ -51,6 +52,10 @@ action="/date/<%= profile._id %>?_method=PUT">
     <div class="form-floating mb-3">
         <textarea type="text" class="form-control" id="floatingInput" name="bio"></textarea>
         <label for="bio">Bio:</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" name="favBird" value="<%= profile.favBird %>">
+        <label for="favBird">Hobbies:</label>
     </div>
         <button type="submit" class="btn btn-primary">Update Profile!</button>
 </form>

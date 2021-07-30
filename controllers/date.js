@@ -9,14 +9,28 @@ export {
     index,
     showProfile,
     updateProfile,
-    deleteProfile as delete,
     editProfile,
     messageIndex,
     messageNew,
     messageShow,
+    likeProfile,
+    questions,
+    deleteProfile
     
 }
- 
+function questions(req, res) {
+    Profile.findById(req.params.id)
+    .then(profile => {
+      res.render('dates/questions', {
+        title: `Prompts for ${profile.name}'s profile`,
+        profile
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/')
+    }) 
+}
 function editProfile(req, res) {
     Profile.findById(req.params.id)
     .then(profile => {
@@ -82,24 +96,6 @@ function updateProfile(req, res) {
     })
 }
 
-function deleteProfile (req, res) {
-     User.findByIdAndDelete(req.user._id)
-    .then(user => {
-        Profile.findByIdAndDelete(req.user.profile._id)
-        .then(profile => {
-            Post.deleteMany({author: profile._id})
-            .then(() => {
-
-            })
-            res.redirect("/")
-        })
-    })
-    .catch(err => {
-        console.log(err)
-        res.redirect("/choose")
-    })
-}
-
 function messageNew (req, res) {
     req.body.from = req.user.profile._id
     Profile.findById(req.user.profile._id)
@@ -144,6 +140,7 @@ function messageShow (req,res) {
     .populate("to")
     .populate("from")
     .then(messages => {
+        // console.log("This is messages ", messages)
         Profile.findById(req.user.profile._id)
         .then(usersProfile => {
             Profile.findById(req.params.id)
@@ -169,6 +166,54 @@ function messageIndex (req, res) {
                 profile: profile,
                 profiles: profiles,
             })
+        })
+    })
+}
+function likeProfile (req, res) {
+    Profile.findById(req.user.profile._id)
+    .then(profileLiked => {
+        const profileLikedLike = []
+        profileLiked.likedBy.forEach(likedBy => {
+            profileLikedLike.push(likedBy.toString())
+        })
+        console.log(!profileLikedLike.includes(req.params.id))
+        if(!profileLikedLike.includes(req.params.id)) {
+            Profile.findById(req.params.id)
+            .then(profileLiked => {
+                profileLiked.likedUsers.push(req.user.profile._id)
+                profileLiked.save()
+                .then(() => {
+                    profileLiked.likedBy.push(req.params.id)
+                    profileLiked.save()
+                    .then(() => {
+                        res.redirect(req.headers.referer)
+                    })
+                })
+            })
+        } else {
+            Profile.findById(req.params.id)
+            .then(profileLiked => {
+                profileLiked.likedBy.remove(req.params.id)
+                profileLiked.save()
+                .then(() => {
+                    profileLiked.likedUsers.remove(req.user.profile._id)
+                    profileLiked.save()
+                    .then(() => {
+                        res.redirect(req.headers.referer)
+                    })
+                })
+            })
+        }
+    })
+}
+function deleteProfile (req, res) {
+    Profile.findByIdAndDelete(req.params.id)
+    .then((user) => {
+        console.log('this is the user profile ', user)
+        User.findOneAndDelete({ profile: user._id })
+        .then((profile) => {
+            console.log('this is the profile ', profile)
+            res.redirect('/date')
         })
     })
 }
