@@ -38,12 +38,11 @@
     </div>
   </div>
 <div class="container-fluid d-flex">
-    <div class="row d-flex justify-content-end container-fluid">
-        <div>
-            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#newMessage">New Message</button>
-        </div>
+    <div class="mb-2">
+        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#newMessage">New Message</button>
     </div>
-    <div class="row">
+</div>
+    <div class="container-fluid d-flex">
         <% profile.dateMessaged?.forEach(person => { %>
             <a href="/date/messages/<%= person._id %>">
                 <div class="card">
