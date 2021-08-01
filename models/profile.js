@@ -17,11 +17,11 @@ const profileSchema = new mongoose.Schema({
   avatar: String,
   gender: {
     type: String,
-    enum: ["Male", "Female", "Other"]
+    enum: ["Male", "Female", "FTM", "MTF", "Non-Binary", "Agender", "Queer", "Two-Spirit", "Other"]
   },
   interestedIn: {
-    type: String,
-    enum: ["Male", "Female", "Other"]
+    type: [String],
+    enum: ["Male", "Female", "FTM", "MTF", "Non-Binary", "Agender", "Queer", "Two-Spirit", "Other"]
   },
   age: Number,
   country: String,
