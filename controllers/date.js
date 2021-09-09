@@ -73,7 +73,7 @@ function updateProfile(req, res) {
     })
 }
 
-function deleteProfile (req, res) {
+// function deleteProfile (req, res) {
     //  User.findByIdAndDelete(req.user._id)
     // .then(user => {
     //     Profile.findByIdAndDelete(req.user.profile._id)
@@ -89,7 +89,7 @@ function deleteProfile (req, res) {
     //     console.log(err)
     //     res.redirect("/choose")
     // })
-}
+// }
 
 function messageNew (req, res) {
     req.body.from = req.user.profile._id
