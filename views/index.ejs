@@ -1,16 +1,21 @@
 <%- include('./partials/html-head') %>
-<%- include('./partials/nav') %>
-
-<main>
-  <h1>hello, <%= user ? user.profile.name : "friend" %></h1>
-  <% if (user?.profile.avatar) { %>
-    <div>
-      <img 
-        src="<%= user.profile.avatar %>" 
-        alt="<%= user.profile.name %> avatar"
-      >
+<link rel="stylesheet" href="/stylesheets/index/login.css" />
+</head>
+<body>
+  <main>
+    <div class="container-fluid d-flex justify-content-center align-items-center">
+      <div class="col-3">
+        <div class="card">
+          <img src="/images/index/dove.png" class="card-img-top" alt="Bird">
+          <div class="card-body">
+            <div class="d-flex justify-content-center container-fluid">
+              <form action="/auth/google" method="get">
+                <button type="submit" class="btn btn-lg btn-primary">Login with Google</button>
+              </form>
+            </div>
+          </div>
+      </div>
     </div>
-  <% } %>
-</main>
+  </main>
 
 <%- include('./partials/footer') %>

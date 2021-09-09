@@ -1,0 +1,103 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar d-flex justify-content-start">  
+<div class="dropdown">
+    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      <img src="/images/index/bird.png" width="50" height="50" alt="Bird">
+    </button>   
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li>
+        <a style="color: white; text-decoration: none;" href="/nest">
+        <button type="button"  class="btn btn-primary drop-btn">
+          Nest Home
+        </button>
+        </a>
+      </li>
+    <li>
+      <button type="button" class="btn btn-primary drop-btn">
+      <a style="color: white; text-decoration: none;" href="/date">
+        All Birds No Bees
+      </a>
+  </button>
+</li>
+      <li><button type="button" class="btn btn-primary drop-btn" data-bs-toggle="modal" data-bs-target="#newPost">
+        What's Hooting
+    </button></li>
+      <li><button type="button" class="btn btn-primary drop-btn" data-bs-toggle="modal" data-bs-target="#newFlock">
+        Create Flock
+    </button></li>
+      <li><button type="button" class="btn btn-primary drop-btn">
+        <a style="color: white; text-decoration: none;" href="/nest/<%= user.profile._id %>">My Profile</a>
+    </button></li>
+    <li><button type="button" class="btn btn-primary drop-btn">
+      <a style="color: white; text-decoration: none;" href="/nest/messages">Chirp Chat</a>
+  </button></li>
+  <li><button type="button" class="btn btn-primary drop-btn">
+    <a style="color: white; text-decoration: none;" href="/nest/allProfiles">All Birds</a>
+</button></li>
+<li><button type="button" class="btn btn-primary drop-btn">
+  <a style="color: white; text-decoration: none;" href="/nest/allPosts">All Hoots</a>
+</button></li>
+<li><button type="button" class="btn btn-primary drop-btn">
+  <a style="color: white; text-decoration: none;" href="/auth/logout">Logout</a>
+</button></li>
+    </ul>
+  </div>
+    </button>
+</nav>
+<div class="modal" id="newPost" tabindex="-1" aria-labelledby="newPost" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newPost">New Hoot</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="submit-form" action="/nest/posts" method="POST">
+          <div class="form-floating mb-3">
+              <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
+              <label for="name">Content:</label>
+          </div>
+          <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingInput" name="image" >
+              <label for="image">Image URL:</label>
+          </div>
+      </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Hoot it!</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal" id="newFlock" tabindex="-1" aria-labelledby="newFlock" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newFlock">New Flock</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="submit-form" action="/nest/flocks" method="POST">
+          <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingInput" name="name" required>
+              <label for="name">Flock Name:</label>
+          </div>
+          <div class="form-floating mb-3">
+              <textarea type="text" class="form-control" id="floatingInput" name="desc"></textarea>
+              <label for="desc">Description:</label>
+          </div>
+      </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Create Flock!</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+ 

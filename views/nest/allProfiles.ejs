@@ -1,0 +1,26 @@
+<%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/nest/nav.css">
+<%- include("../partials/nest-nav") %> 
+</head>
+<body>
+
+<main>
+              <h3>All Birds</h3>
+                <% profiles?.forEach(profile => { %>
+                     <div class="col-md-2">
+                       <div class="card">
+                         <div class="card-body">
+                         <% if (profile.avatar) { %> 
+                          <img style="height: 100px; width: 100px;" src="<%= profile.avatar %>" class="card-img rounded-circle" alt="<%= profile.name %>'s Avatar">
+                          <% } %> 
+                            <h5 class="card-title"><%= profile.name %></h5>
+                            <form action="/nest/<%= profile._id %>" method="GET">
+                              <button type="submit" class="btn btn-lg btn-primary">Go to Profile</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <% }) %>
+</main>
+
+<%- include('../partials/footer') %>

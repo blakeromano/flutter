@@ -1,0 +1,45 @@
+<%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/nest/nav.css">
+<link rel="stylesheet" href="/stylesheets/nest/messageShow.css">
+<%- include("../partials/nest-nav") %> 
+
+<div class="d-flex container-fluid justify-content-center">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <% if (otherProfile.avatar) { %> 
+                 <img style="height: 100px; width: 100px;" src="<%= otherProfile.avatar %>" class="card-img rounded-circle" alt="<%= otherProfile.name %>'s Avatar">
+                 <% } %> 
+            </div>
+           <h2 class="card-title"><a href="/nest/<%= otherProfile._id %>"><%= otherProfile.name %></a></h2>
+         </div>
+       </div>
+</div>
+<% messages.forEach(message => { %>
+    <% if (message.from._id.toString() === otherProfile._id.toString()) { %>
+        <div class="d-flex justify-content-start container-fluid ">
+            <p class="timestamp"><%= message.createdAt %></p>
+            <h4 class="p-2 message"style="border: rgba(128, 128, 128, 0.3) solid 1px; max-width: 50%; border-radius: 15px;"><%= message.content %></h4> 
+        </div>
+    <% } else {%>
+        <div class="d-flex justify-content-end container-fluid ">
+            <p class="timestamp"><%= message.createdAt %></p>
+            <h4 class="p-2 message" style="border: rgba(128, 128, 128, 0.3) solid 1px; max-width: 50%; border-radius: 15px;"><%= message.content %></h4>
+        </div>
+    <% } %> 
+<% }) %>
+
+<div>
+    <form class="d-flex container-fluid justify-content-around my-3" action="/nest/messages/<%= otherProfile._id %>" method="POST">
+        <div class="col-10 form-floating mb-3">
+            <input type="text" name="to" value="<%= otherProfile._id %>" required hidden>
+            <textarea rows="4" type="text" class="form-control" id="floatingInput" name="content" required></textarea>
+            <label for="content">Message:</label>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-lg btn-success"type="submit">Chirp</button>
+        </div>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>

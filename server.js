@@ -20,6 +20,11 @@ import('./config/passport.js')
 // require routes
 import { router as indexRouter } from './routes/index.js'
 import { router as authRouter } from './routes/auth.js'
+import { router as chooseRouter } from "./routes/choose.js"
+import { router as nestRouter } from "./routes/nest.js"
+import { router as datesRouter } from './routes/dates.js'
+import { passUserToView } from './middleware/middleware.js'
+
 
 // view engine setup
 app.set(
@@ -55,14 +60,20 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
+// custom middleware 
+app.use(passUserToView)
+
 // router middleware
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
+app.use("/choose", chooseRouter)
+app.use("/nest", nestRouter)
+app.use('/date', datesRouter)
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404))
-})
+ app.use(function (req, res, next) {
+   next(createError(404))
+ })
 
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development

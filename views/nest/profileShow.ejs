@@ -1,0 +1,231 @@
+<%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/nest/nav.css">
+<%- include("../partials/nest-nav") %> 
+      <div class="modal" id="updateProfile" tabindex="-1" aria-labelledby="updateProfile" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="updateProfile">Update Profile</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="submit-form" action="/nest/<%= profile._id %>?_method=PUT" method="POST">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="name" value="<%= profile.name %>" required>
+                    <label for="name">Name:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="avatar" value="<%= profile.avatar %>" required>
+                    <label for="avatar">Avatar Link:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingInput" name="age" value="<%= profile.age %>">
+                    <label for="age">Age:</label>
+                </div>
+                <div class="form-floating row mb-3">
+                    <div class="col-2">
+                        <label for="gender">Gender:</label>
+                    </div>
+                    <div class="col-10">
+                        <select name="gender">
+                          <option value="">Select One</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="FTM">FTM</option>
+                          <option value="MTF">MTF</option>
+                          <option value="Non-Binary">Non-Binary</option>
+                          <option value="Agender">Agender</option>
+                          <option value="Queer">Queer</option>
+                          <option value="Two-Spirit">Two Spirit</option>
+                          <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="country"  value="<%= profile.country %>">
+                    <label for="country">Country:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="state"  value="<%= profile.state %>">
+                    <label for="state">State (put in two letter initals):</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="city"  value="<%= profile.city %>">
+                    <label for="city">City/Town:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="favBird" value="<%= profile.favBird %>">
+                    <label for="favBird">Favorite Bird:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="birthday"  value="<%= profile.birthday %>">
+                    <label for="birthday">Birthday:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea type="text" class="form-control" id="floatingInput" name="bio"><%= profile.bio %></textarea>
+                    <label for="bio">Bio:</label>
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update Profile!</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    <div class="d-flex row container-fluid">
+        <div class="col-md-8 container-fluid">
+            <h1 class="text-center"><%= profile.name %>'s Hoots</h1>
+            <% profile.posts.forEach(post => { %>
+                <div class="card">
+                <% if (post.image) { %> 
+                        <img src="" class="card-img-top" alt="...">
+                        <% } %> 
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-9">
+                              <p class="card-text"><%= post.content %></p>
+                              <a class="card-text my-3" href="/nest/<%= post.author._id %>"><%= post.author.name %></a>
+                              <p class="card-text">Liked by: <%= post.likes.length %> people!</p>
+                            </div>
+                            <div class="col-3 d-flex justify-content-center">
+                              <% if (!post.likes.includes(user.profile._id)) { %>
+                                <form action="/nest/posts/<%= post._id %>/like" method="POST">
+                                      <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-success">👍</button>
+                                </form>
+                              <% } else {%>
+                                <form action="/nest/posts/<%= post._id %>/like" method="POST">
+                                  <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-danger">👎</button>
+                                </form>
+                              <% } %>
+                              <% if(post.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                              <form action="/nest/posts/<%= post._id %>?_method=DELETE" method="POST">
+                                <button style="height: 46.45px;" type="submit" class="btn btn-lg btn-danger">X</button>
+                              </form>
+                              <button style="height: 46.45px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPost">
+                                Edit
+                            </button>  
+                              <% } %> 
+                            </div>
+                        </div>
+                        </div>
+                        <div class="card-footer">
+                            <% post.comments.forEach(comment => { %>
+                              <div class="row">
+                                <div class="col-11">
+                                  <h6><%= comment.author.name %></h6>
+                                  <p><%= comment.content %></p>
+                                </div>
+                                <div class="col-1">
+                                  <% if(comment.author._id.toString() === user.profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                                    <form action="/nest/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                      <button type="submit" class="btn btn-danger">X</button>
+                                    </form>
+                                  <% } %> 
+                                </div>
+                              </div>
+                            <% }) %>
+                            <form method="POST" action="/nest/posts/<%= post._id %>/comment">
+                              <div class="form-floating mb-3">
+                                <textarea type="text" class="form-control" id="floatingInput" name="content" required></textarea>
+                                <label for="content">Comment:</label>
+                                <button type="submit">Submit</button>
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="modal" id="editPost" tabindex="-1" aria-labelledby="editPost" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="editPost">Edit Hoot</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form class="submit-form" action="/nest/posts/<%= post._id %>?_method=PUT" method="POST">
+                            <div class="form-floating mb-3">
+                                <textarea type="text" class="form-control" id="floatingInput" name="content" required><%= post.content %></textarea>
+                                <label for="content">Content:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="image" value="<%= post.image %>" >
+                                <label for="image">Image URL:</label>
+                            </div>
+                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Hoot!</button>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+            <% }) %> 
+        </div>
+        <div class="col-md-4 container-fluid">
+            <div class="p-3"style="border: rgba(128, 128, 128, 0.15) solid 2px">
+                <div class="text-center">
+                    <h1>Bird's Information</h1>
+                    <img height="150px" width="150px" src="<%= profile.avatar %> " alt="<%= profile.name %>'s avatar">
+                    <h2><%= profile.name %></h2>
+                    <% if (profile.moderator === true) { %>
+                        <h3>Moderator ⚒</h3>
+                    <% } %>
+                    <h4>Followers: <%= profile.followers.length %></h4>
+                    <h4>Following: <%= profile.following.length %></h4>
+                </div>
+            <p>Age: <%= profile.age %></p>
+            <p>Gender: <%= profile.gender %></p>
+            <p>Location: <%= profile.city %>, <%= profile.state %>, <%= profile.country %></p>
+            <p>Favorite Bird: <%= profile.favBird %></p>
+            <p>Birthday: <%= profile.birthday %></p>
+            <p>Biography: <%= profile.bio %></p>
+            <% if (user.profile._id.toString() === profile._id.toString() || user.profile.name == "Blake Romano") { %>
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#updateProfile">Update Profile</button>
+                <!-- <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteProfile">Delete Profile</button> -->
+                <% } %>
+                <% if (user.profile._id.toString() !== profile._id.toString()) { %>
+                  <% if (!profile.followers.includes(user.profile._id)) { %>
+                    <form action="/nest/<%= profile._id %>/follow" method="POST">
+                      <button type="submit" class="btn btn-lg btn-primary mw-75">Follow <%= profile.name %></button>
+                    </form>
+                  <% } else { %>
+                  <form action="/nest/<%= profile._id %>/follow" method="POST">
+                    <button type="submit" class="btn btn-lg btn-danger mw-75">Unfollow <%= profile.name %></button>
+                  </form>
+                  <% } %> 
+                <% } %>
+            </div>
+                <h3 class="text-center my-3"><%= profile.name %>'s Flocks</h3>
+                <% profile.flocks?.forEach(flock => { %>
+                    <a href="/nest/flocks/<%= flock._id %>">
+                        <div class="card my-2">
+                            <div class="card-body p-3">
+                                <h5 class="card-title text-center"><%= flock.name %></h5>
+                                <h5 class="card-title text-center">Created by <%= flock.profiles[0].name %></h5>
+                                <p class="card-text text-center"><%= flock.desc %></p>
+                                <div class="d-flex justify-content-center">
+                                  <% if (!flock.profiles.some(profile => profile._id.toString() === user.profile._id.toString())) { %>
+                                    <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
+                                      <button type="submit" class="btn btn-success">Join Flock!</button>
+                                    </form>
+                                      <% } else if (flock.profiles[0]._id.toString() === user.profile._id.toString()) { %>
+                                        <% } else { %>
+                                          <form method="POST" action="/nest/flocks/<%= flock._id %>/join">
+                                            <button type="submit" class="btn btn-danger">Leave Flock</button>
+                                          </form>
+                                      <% } %> 
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                    <% }) %> 
+                <div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<%- include('../partials/footer') %>

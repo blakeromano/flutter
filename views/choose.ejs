@@ -1,0 +1,43 @@
+<%- include('./partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/index/choose.css" />
+</head>
+<body>
+<main>
+  <div class="everything-div container-fluid d-flex justify-content-around align-items-center">
+      <div class="col-4">
+          <div>
+              <div class="card">
+                  <div class="d-flex container-fluid align-items-center justify-content-center">
+                      <img src="/images/index/nest.png" class="card-img-top" alt="...">
+                  </div>
+                  <div class="card-body">
+                      <h5 class="card-title text-center">Go to the Nest</h5>
+                      <div class="d-flex justify-content-center">
+                          <form action="/nest" method="get">
+                              <button type="submit" class="btn btn-lg btn-primary">Nest</button>
+                          </form>
+                      </div>
+                  </div>
+            </div>
+      </div>
+      </div>
+      <div class="col-4">
+          <div class="">
+              <div class="card">
+                <div class="d-flex container-fluid align-items-center justify-content-center">
+                  <img src="/images/index/mate.png" class="card-img-top" alt="...">
+                </div>
+                  <div class="card-body">
+                      <h5 class="card-title text-center">Go Find Your Chirp Mate!</h5>
+                      <div class="d-flex justify-content-center">
+                          <form action="/date" method="get">
+                              <button type="submit" class="btn btn-lg btn-primary">All Birds No Bees</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+      </div>
+  </div>
+</main>
+
+<%- include('./partials/footer') %>

@@ -1,18 +1,34 @@
-  <% if (!user) { %>
-    <link rel="stylesheet" href="/stylesheets/siwg.css">
-  <% } %>
+<link rel="stylesheet" href="/stylesheets/nest/nav.css">
+
 </head>
 <body>
-  <nav>
-    <% if (user) { %>
-      <a href="/auth/logout">
-        <button type="submit">Logout</button>
-      </a>
-    <% } else { %>
-      <a href="/auth/google" class="siwg-link">
-        <button type="submit" class="siwg">
-          <img id="siwg-image" alt="Sign in with Google" />
-        </button>
-      </a>
-    <% } %>
-  </nav>
+<nav class="navbar navbar-light bg-light d-flex justify-content-start">  
+<div class="dropdown">
+    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      <img src="/images/index/bird.png" width="50" height="50" alt="Bird">
+    </button>   
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><button type="button" class="btn btn-primary drop-btn">
+      <a style="color: white; text-decoration: none;" href="/nest">Return to the Nest</a>
+  </button></li>      
+      <li><button type="button"  class="btn btn-primary drop-btn">
+        <a style="color: white; text-decoration: none;" href="/date">Date Home</a>
+    </button></li>
+      <li><button type="button" class="btn btn-primary drop-btn">
+        <a style="color: white; text-decoration: none;" href="/date/<%= user.profile._id %>">My Profile</a>
+    </button></li>
+    <li><button type="button" class="btn btn-primary drop-btn">
+      <a style="color: white; text-decoration: none;" href="/date/messageIndex">Messages</a>
+  </button></li>
+<li><button type="button" class="btn btn-primary drop-btn">
+  <a style="color: white; text-decoration: none;" href="/auth/logout">Logout</a>
+</button></li>
+    </ul>
+  </div>
+    </button>
+</nav>
+      </form>
+    </div>
+  </div>
+</div>
+ 

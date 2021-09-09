@@ -1,0 +1,103 @@
+<%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/index/choose.css" />
+<%- include("../partials/nav") %> 
+</head>
+<body>
+  <div class="modal" id="filter" tabindex="-1" aria-labelledby="filter" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="filter">Filter</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="submit-form" action="/date/filter" method="POST">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingInput" name="country" >
+              <label for="country">Country:</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" name="state" >
+            <label for="state">State:</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="floatingInput" name="city" >
+          <label for="city">City:</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" name="minAgeInt" >
+        <label for="minAgeInt">Minimum Age:</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingInput" name="maxAgeInt" >
+      <label for="maxAgeInt">Maximum Age:</label>
+  </div>
+    <div class="form-floating row mb-3">
+      <div class="col-2">
+          <label for="gender">Gender:</label>
+      </div>
+      <div class="col-10">
+          <select name="gender">
+              <option value="">Select One</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="FTM">FTM</option>
+              <option value="MTF">MTF</option>
+              <option value="Non-Binary">Non-Binary</option>
+              <option value="Agender">Agender</option>
+              <option value="Queer">Queer</option>
+              <option value="Two-Spirit">Two Spirit</option>
+              <option value="Other">Other</option>
+          </select>
+      </div>
+    </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#filter" data-bs-whatever="@mdo">Filter</button>
+  </div>
+  <div class="d-flex justify-content-around">
+  </div>
+      <div class="w-100 h-100 d-flex container-fluid flex-wrap">
+        <% profiles?.forEach(profile => { %>
+          <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card">
+              <div class="d-flex justify-content-center">
+                <% if (profile.avatar) { %> 
+                    <img style="height: 100px; width: 100px;" src="<%= profile.avatar %>" class="card-img" alt="<%= profile.name %>'s Avatar">
+                <% } %> 
+              </div>
+                    <div class="card-body">
+                      <h5 class="card-title text-center"><%= profile.name %></h5>
+                      <div class="d-flex justify-content-center">
+                        <% if (!profile.likedBy.includes(user.profile._id.toString())) { %>
+                          <% if (user.profile._id.toString() !== profile._id.toString()) { %>
+                            <form action="/date/<%= profile._id %>/like" method="Post">
+                              <button type="submit" class="btn btn-lg btn-primary">Like</button>
+                            </form>
+                            <% } %>
+                            <% } else { %>
+                              <form action="/date/<%= profile._id %>/like" method="Post">
+                                <button type="submit" class="btn btn-lg btn-danger">Unlike</button>
+                              </form>
+                              <% } %> 
+                              <form action="/date/<%= profile._id %>/" method="GET">
+                                <button type="submit" class="btn btn-lg btn-primary">Go to Profile</button>
+                              </form>
+                            </div>
+                    </div>
+                </div>
+              </div>
+        <% }) %> 
+    </div>
+</main>
+
+<%- include('../partials/footer') %>
+

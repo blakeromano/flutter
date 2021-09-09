@@ -1,0 +1,63 @@
+<%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/nest/nav.css">
+<%- include("../partials/nest-nav") %> 
+<div class="modal" id="newMessage" tabindex="-1" aria-labelledby="newMessage" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newMessage">New Chirp</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="submit-form" action="/nest/messages/<%= user.profile._id %>" method="POST">
+            <div class="form-floating row mb-3">
+                <div class="col-3">
+                    <label for="to">Send to:</label>
+                </div>
+                <div class="col-9">
+                    <select name="to">
+                        <% profiles.forEach(profile => { %>
+                            <% if (profile._id.toString() !== user.profile._id.toString()) { %>
+                                <option value="<%= profile._id %>"><%= profile.name %></option>
+                            <% } %>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea type="text" class="form-control" id="floatingInput" name="content"></textarea>
+                <label for="content">Message:</label>
+            </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Send Chirp!</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<div class="row d-flex container-fluid my-3">
+    <div>
+        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#newMessage">New Chirp</button>
+    </div>
+</div>
+<div class="d-flex flex-wrap">
+    <% profile?.nestMessaged.forEach(person => { %>
+        <div class="col-md-4">
+            <a href="/nest/messages/<%= person._id %>">
+                <div class="card" style="height: 140px; width: 300px;">
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                      <% if (person.avatar) { %> 
+                            <img style="height: 100px; width: 100px;" src="<%= person.avatar %>" class="card-img rounded-circle" alt="<%= person.name %>'s Avatar">
+                      <% } %> 
+                            <h5 class="ms-2 card-title text-center"><%= person.name %></h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <% }) %>
+
+</div>
+
+<%- include('../partials/footer') %>
