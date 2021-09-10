@@ -14,7 +14,6 @@ router.get("/:id/edit", isLoggedIn, dateCtrl.editProfile)
 router.post("/filter", isLoggedIn, dateCtrl.filter)
 router.post("/messages/:id", isLoggedIn, dateCtrl.messageNew) 
 router.put("/:id", isLoggedIn, dateCtrl.updateProfile)
-router.delete("/:id", isLoggedIn, dateCtrl.delete)
 router.post("/:id/like", isLoggedIn, dateCtrl.like)
 
 

@@ -9,7 +9,6 @@ export {
     index,
     showProfile,
     updateProfile,
-    deleteProfile as delete,
     editProfile,
     messageIndex,
     messageNew,
